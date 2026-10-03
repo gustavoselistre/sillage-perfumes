@@ -1,0 +1,6 @@
+# Local tooling (não vai para o repositório nem para o site)
+deploy_key
+.chrome-puppet/
+.ccpraxis-local-data/
+.claude/settings.local.json
+.DS_Store
