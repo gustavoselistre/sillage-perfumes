@@ -664,7 +664,10 @@
     },
   };
 
+  let onCartChange = null; // definido pelo checkout (recalcula as parcelas)
+
   function renderCart() {
+    if (onCartChange) onCartChange();
     const count = cart.count();
     $$("[data-cart-count]").forEach((el) => (el.textContent = count));
     const cartBtn = $(".cart-btn");
@@ -749,32 +752,211 @@
     initCheckout(close);
   }
 
+  // Subtotal da sacola (itens sem preço ficam "a consultar").
+  function cartTotal() {
+    let total = 0, allPriced = true;
+    cart.items.forEach((it) => {
+      const p = productById(it.id);
+      if (p.price != null) total += p.price * it.qty; else allPriced = false;
+    });
+    return { total, allPriced };
+  }
+
+  /* ---------- Select personalizado ----------
+     A lista nativa do <select> não aceita estilo. O <select> continua no formulário (guarda o valor
+     e funciona sem JS); por cima dele vai um botão + listbox acessível com as cores do site.
+     Depois de trocar as opções ou o valor por código, chame refreshSelect(select). */
+  const selectUi = new WeakMap();
+  let selectUid = 0;
+
+  function enhanceSelect(select) {
+    const id = `cs${++selectUid}`;
+    const wrap = document.createElement("div");
+    wrap.className = "cselect";
+    select.classList.add("cselect__native");
+    select.tabIndex = -1;
+    select.setAttribute("aria-hidden", "true");
+    select.parentNode.insertBefore(wrap, select);
+    wrap.appendChild(select);
+    wrap.insertAdjacentHTML("beforeend", `
+      <button type="button" class="cselect__btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}">
+        <span class="cselect__value"></span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul class="cselect__list" id="${id}" role="listbox" tabindex="-1" hidden></ul>`);
+    const btn = $(".cselect__btn", wrap);
+    const list = $(".cselect__list", wrap);
+    const label = select.closest("label")?.querySelector("span");
+    if (label) { label.id ||= `${id}-label`; btn.setAttribute("aria-labelledby", `${label.id} ${id}-value`); list.setAttribute("aria-labelledby", label.id); }
+    $(".cselect__value", wrap).id = `${id}-value`;
+    let active = 0;
+
+    const options = () => [...select.options];
+    function refresh() {
+      const opts = options();
+      list.innerHTML = opts.map((o, i) =>
+        `<li class="cselect__opt" role="option" id="${id}-o${i}" data-i="${i}" aria-selected="${o.selected}">${escapeHtml(o.text)}</li>`).join("");
+      $(".cselect__value", wrap).textContent = select.selectedOptions[0]?.text || "";
+    }
+    function setActive(i) {
+      const items = $$(".cselect__opt", list);
+      if (!items.length) return;
+      active = Math.max(0, Math.min(items.length - 1, i));
+      items.forEach((li, k) => li.classList.toggle("is-active", k === active));
+      list.setAttribute("aria-activedescendant", items[active].id);
+      items[active].scrollIntoView({ block: "nearest" });
+    }
+    function open() {
+      refresh();
+      list.hidden = false;
+      wrap.classList.add("is-open");
+      btn.setAttribute("aria-expanded", "true");
+      setActive(select.selectedIndex);
+      list.focus({ preventScroll: true });
+      // Dentro da gaveta a lista pode abrir abaixo da área visível: rola só o necessário.
+      list.scrollIntoView({ block: "nearest", behavior: reducedMotion ? "auto" : "smooth" });
+    }
+    function close(focusBtn = true) {
+      if (list.hidden) return;
+      list.hidden = true;
+      wrap.classList.remove("is-open");
+      btn.setAttribute("aria-expanded", "false");
+      if (focusBtn) btn.focus({ preventScroll: true });
+    }
+    function choose(i) {
+      if (select.selectedIndex !== i) {
+        select.selectedIndex = i;
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+      refresh();
+      close();
+    }
+
+    btn.addEventListener("click", () => (list.hidden ? open() : close()));
+    btn.addEventListener("keydown", (e) => {
+      if (["ArrowDown", "ArrowUp", "Enter", " "].includes(e.key)) { e.preventDefault(); open(); }
+    });
+    list.addEventListener("click", (e) => {
+      const li = e.target.closest(".cselect__opt");
+      if (li) choose(Number(li.dataset.i));
+    });
+    list.addEventListener("mousemove", (e) => {
+      const li = e.target.closest(".cselect__opt");
+      if (li && Number(li.dataset.i) !== active) setActive(Number(li.dataset.i));
+    });
+    list.addEventListener("keydown", (e) => {
+      const n = select.options.length;
+      if (e.key === "ArrowDown") { e.preventDefault(); setActive(active + 1); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); setActive(active - 1); }
+      else if (e.key === "Home") { e.preventDefault(); setActive(0); }
+      else if (e.key === "End") { e.preventDefault(); setActive(n - 1); }
+      else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); choose(active); }
+      else if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); close(); }
+      else if (e.key === "Tab") close(false);
+    });
+    document.addEventListener("click", (e) => { if (!wrap.contains(e.target)) close(false); });
+    select.addEventListener("change", refresh);
+
+    selectUi.set(select, refresh);
+    refresh();
+  }
+  const refreshSelect = (select) => { const fn = selectUi.get(select); if (fn) fn(); };
+
   /* ---------- Checkout → WhatsApp ---------- */
   function initCheckout(closeDrawer) {
     const form = $("[data-checkout]");
     const errorEl = $("[data-form-error]");
     const addressField = $("[data-address-field]");
+    const installmentsField = $("[data-installments-field]");
+    const installmentsSelect = $("[data-installments-select]");
     const saved = store.get(CUSTOMER_KEY, {}) || {};
 
-    ["name", "address"].forEach((k) => { if (saved[k]) form.elements[k].value = saved[k]; });
+    ["name", "address", "cep", "number"].forEach((k) => { if (saved[k]) form.elements[k].value = saved[k]; });
     if (CONFIG.payments.includes(saved.payment)) form.elements.payment.value = saved.payment;
     if (saved.mode === "entrega" || saved.mode === "retirada") form.elements.mode.value = saved.mode;
 
-    const syncMode = () => { addressField.hidden = form.elements.mode.value !== "entrega"; };
+    // Parcelas: só aparecem no cartão de crédito. Com subtotal conhecido, mostra o valor de cada parcela.
+    const isCredit = () => form.elements.payment.value === CONFIG.creditCard;
+    function renderInstallments() {
+      const keep = Number(installmentsSelect.value) || Number(saved.installments) || 1;
+      const { total } = cartTotal();
+      installmentsSelect.innerHTML = Array.from({ length: CONFIG.maxInstallments }, (_, i) => {
+        const n = i + 1;
+        const label = total > 0
+          ? `${n}x de ${formatPrice(total / n)}${n === 1 ? " (à vista)" : " sem juros"}`
+          : `${n}x${n === 1 ? " (à vista)" : " sem juros"}`;
+        return `<option value="${n}">${label}</option>`;
+      }).join("");
+      installmentsSelect.value = String(Math.min(keep, CONFIG.maxInstallments));
+      refreshSelect(installmentsSelect);
+    }
+    onCartChange = renderInstallments;
+
+    const syncMode = () => {
+      addressField.hidden = form.elements.mode.value !== "entrega";
+      installmentsField.hidden = !isCredit();
+    };
+    enhanceSelect(form.elements.payment);
+    enhanceSelect(installmentsSelect);
+    renderInstallments();
     syncMode();
     form.addEventListener("change", syncMode);
     form.addEventListener("input", (e) => e.target.classList.remove("is-invalid"));
     form.addEventListener("submit", (e) => { e.preventDefault(); send(); });
 
+    /* CEP → endereço (ViaCEP: gratuito, sem chave, aceita chamada direto do navegador). */
+    const cepInput = form.elements.cep;
+    const cepStatus = $("[data-cep-status]");
+    const cepHint = cepStatus.innerHTML;
+    const cepDigits = () => cepInput.value.replace(/\D/g, "");
+    let cepRequest = 0;
+    async function lookupCep() {
+      const cep = cepDigits();
+      if (cep.length !== 8) return;
+      const req = ++cepRequest;
+      cepStatus.textContent = "Buscando endereço…";
+      cepStatus.dataset.state = "loading";
+      try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 6000);
+        const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`, { signal: ctrl.signal });
+        clearTimeout(timer);
+        if (req !== cepRequest) return; // o cliente já digitou outro CEP
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const d = await res.json();
+        if (d.erro) {
+          cepInput.classList.add("is-invalid");
+          cepStatus.textContent = "CEP não encontrado. Confira o número ou preencha o endereço abaixo.";
+          cepStatus.dataset.state = "error";
+          return;
+        }
+        const street = [d.logradouro, d.complemento].filter(Boolean).join(" – ");
+        const place = [street, d.bairro, d.localidade && `${d.localidade}/${d.uf}`].filter(Boolean).join(", ");
+        form.elements.address.value = place;
+        form.elements.address.classList.remove("is-invalid");
+        cepStatus.textContent = `Endereço encontrado: ${d.localidade}/${d.uf}. Confira e informe o número.`;
+        cepStatus.dataset.state = "ok";
+        if (!form.elements.number.value.trim()) form.elements.number.focus();
+      } catch {
+        if (req !== cepRequest) return;
+        cepStatus.textContent = "Não foi possível buscar o CEP agora. Preencha o endereço abaixo.";
+        cepStatus.dataset.state = "error";
+      }
+    }
+    cepInput.addEventListener("input", () => {
+      const d = cepDigits().slice(0, 8);
+      cepInput.value = d.length > 5 ? `${d.slice(0, 5)}-${d.slice(5)}` : d;
+      if (d.length === 8) lookupCep();
+      else { cepRequest++; cepStatus.innerHTML = cepHint; delete cepStatus.dataset.state; }
+    });
+
     function buildMessage(data) {
       const lines = ["*Novo pedido pelo site – Sillage Perfumes* ✨", ""];
-      let total = 0;
-      let allPriced = true;
+      const { total, allPriced } = cartTotal();
       cart.items.forEach((it) => {
         const p = productById(it.id);
         let line = `• ${it.qty}x ${fullName(p)}${it.size ? ` (${it.size})` : ""}`;
-        if (p.price != null) { line += ` – ${formatPrice(p.price * it.qty)}`; total += p.price * it.qty; }
-        else allPriced = false;
+        if (p.price != null) line += ` – ${formatPrice(p.price * it.qty)}`;
         lines.push(line);
       });
       if (total > 0) lines.push("", `*Subtotal:* ${formatPrice(total)}${allPriced ? "" : " + itens a consultar"}`);
@@ -783,8 +965,16 @@
         `*Nome:* ${data.name}`,
         `*Recebimento:* ${data.mode === "entrega" ? "Entrega" : "Retirada (combinar local)"}`
       );
-      if (data.mode === "entrega") lines.push(`*Endereço:* ${data.address}`);
-      lines.push(`*Pagamento:* ${data.payment}`);
+      if (data.mode === "entrega") {
+        const addr = [data.address, data.number && `nº ${data.number}`].filter(Boolean).join(", ");
+        lines.push(`*Endereço:* ${addr}${data.cep ? ` – CEP ${data.cep}` : ""}`);
+      }
+      if (data.installments) {
+        const each = total > 0 ? ` de ${formatPrice(total / data.installments)}` : "";
+        lines.push(`*Pagamento:* ${data.payment} em ${data.installments}x${each}${data.installments === 1 ? " (à vista)" : " sem juros"}`);
+      } else {
+        lines.push(`*Pagamento:* ${data.payment}`);
+      }
       if (data.notes) lines.push(`*Obs.:* ${data.notes}`);
       lines.push("", "Pode confirmar os valores e a disponibilidade? Obrigado!");
       return lines.join("\n");
@@ -795,25 +985,30 @@
         name: form.elements.name.value.trim(),
         mode: form.elements.mode.value,
         address: form.elements.address.value.trim(),
+        cep: form.elements.cep.value.trim(),
+        number: form.elements.number.value.trim(),
         payment: form.elements.payment.value,
+        installments: isCredit() ? Number(installmentsSelect.value) || 1 : null,
         notes: form.elements.notes.value.trim(),
       };
       if (!cart.items.length) { errorEl.textContent = "Sua sacola está vazia."; return; }
       const missing = [];
       if (!data.name) missing.push(form.elements.name);
+      if (data.mode === "entrega" && data.cep && data.cep.replace(/\D/g, "").length !== 8) missing.push(form.elements.cep);
       if (data.mode === "entrega" && data.address.length < 6) missing.push(form.elements.address);
+      if (data.mode === "entrega" && !data.number) missing.push(form.elements.number);
       missing.forEach((el) => el.classList.add("is-invalid"));
       if (missing.length) {
         const noName = missing.includes(form.elements.name);
-        const noAddress = missing.includes(form.elements.address);
+        const noAddress = missing.some((el) => el !== form.elements.name);
         errorEl.textContent = noName && noAddress
           ? "Preencha seu nome e o endereço completo para a entrega."
-          : noAddress ? "Preencha o endereço completo para a entrega." : "Preencha seu nome para continuar.";
+          : noAddress ? "Preencha o endereço completo para a entrega (CEP válido, rua e número)." : "Preencha seu nome para continuar.";
         missing[0].focus();
         return;
       }
       errorEl.textContent = "";
-      store.set(CUSTOMER_KEY, { name: data.name, mode: data.mode, address: data.address, payment: data.payment });
+      store.set(CUSTOMER_KEY, { name: data.name, mode: data.mode, address: data.address, cep: data.cep, number: data.number, payment: data.payment, installments: data.installments });
 
       openExternal(waUrl(buildMessage(data)));
 

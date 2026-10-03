@@ -245,6 +245,7 @@
       <div class="footer__col">
         <h3>Pagamento</h3>
         <p data-config="payments"></p>
+        <p>Cartão de crédito em até 6x sem juros.</p>
         <p>Valores confirmados no atendimento.</p>
       </div>
     </div>
@@ -294,14 +295,33 @@
           </div>
         </fieldset>
 
-        <label class="field" data-address-field>
-          <span>Endereço de entrega</span>
-          <textarea name="address" rows="2" autocomplete="street-address" placeholder="Rua, número, bairro, cidade e CEP"></textarea>
-        </label>
+        <div class="address" data-address-field>
+          <div class="address__row">
+            <label class="field field--cep">
+              <span>CEP</span>
+              <input name="cep" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="00000-000" data-cep>
+            </label>
+            <label class="field field--number">
+              <span>Número</span>
+              <input name="number" autocomplete="address-line2" placeholder="Nº, apto…">
+            </label>
+          </div>
+          <p class="field__hint cep-status" data-cep-status aria-live="polite">Digite o CEP para preencher o endereço. <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank" rel="noopener">Não sei meu CEP</a></p>
+          <label class="field">
+            <span>Endereço de entrega</span>
+            <textarea name="address" rows="2" autocomplete="street-address" placeholder="Rua, bairro e cidade"></textarea>
+          </label>
+        </div>
 
         <label class="field">
           <span>Forma de pagamento</span>
           <select name="payment" data-payment-select></select>
+        </label>
+
+        <label class="field" data-installments-field hidden>
+          <span>Parcelamento no cartão</span>
+          <select name="installments" data-installments-select></select>
+          <small class="field__hint">Até 6x sem juros.</small>
         </label>
 
         <label class="field">

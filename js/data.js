@@ -7,6 +7,9 @@ const CONFIG = {
   whatsappDisplay: "(51) 99668-9650",
   instagram: "sillageperfumesimportados",
   payments: ["Pix", "Cartão de crédito", "Cartão de débito", "Transferência"],
+  // Ao escolher "Cartão de crédito", o checkout pergunta em quantas vezes (1x até maxInstallments).
+  creditCard: "Cartão de crédito",
+  maxInstallments: 6, // até 6x sem juros
 };
 
 /* Famílias olfativas. "todos" é o filtro inicial.

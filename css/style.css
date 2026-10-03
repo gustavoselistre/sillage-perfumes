@@ -1050,3 +1050,52 @@ img.photo {
 
 .spotlight__price { margin-top: 18px; }
 .spotlight__price .product__price { font-size: 34px; }
+
+/* Parcelamento no cartão */
+.field__hint { font-size: 12px; color: var(--muted); }
+
+/* ---------- Select personalizado (pagamento / parcelas) ---------- */
+.cselect { position: relative; }
+.cselect__native { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+.cselect__btn {
+  width: 100%; min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 11px 16px; border-radius: 14px; text-align: left; font-size: 16px; color: var(--heading);
+  border: 1px solid var(--line); background: var(--surface);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.cselect__btn:hover { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
+.cselect__btn:focus-visible, .cselect.is-open .cselect__btn { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px var(--line); }
+.cselect__btn svg { width: 18px; height: 18px; flex: none; color: var(--gold); transition: transform 0.25s var(--ease); }
+.cselect.is-open .cselect__btn svg { transform: rotate(180deg); }
+.cselect__list {
+  position: absolute; z-index: 5; left: 0; right: 0; top: calc(100% + 6px);
+  max-height: 264px; overflow-y: auto; margin: 0; padding: 6px; list-style: none;
+  border-radius: 16px; border: 1px solid var(--gold);
+  background: var(--surface); box-shadow: var(--shadow);
+  animation: cselect-in 0.18s var(--ease);
+  scrollbar-width: thin; scrollbar-color: var(--gold) transparent;
+}
+.cselect__list:focus { outline: none; }
+@keyframes cselect-in { from { opacity: 0; transform: translateY(-6px); } }
+.cselect__opt {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  min-height: 42px; padding: 9px 12px; border-radius: 10px; cursor: pointer;
+  font-size: 15px; color: var(--text);
+}
+.cselect__opt.is-active { background: color-mix(in srgb, var(--gold) 16%, transparent); color: var(--heading); }
+.cselect__opt[aria-selected="true"] { color: var(--heading); font-weight: 500; }
+.cselect__opt[aria-selected="true"]::after {
+  content: ""; width: 7px; height: 7px; transform: rotate(45deg); background: var(--gold); flex: none;
+}
+@media (prefers-reduced-motion: reduce) { .cselect__list { animation: none; } }
+
+/* ---------- CEP + número (ViaCEP) ---------- */
+.address { display: grid; gap: 8px; }
+.address__row { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 10px; }
+.cep-status { margin-top: -2px; line-height: 1.45; }
+.cep-status a { color: var(--gold); }
+.cep-status[data-state="loading"] { color: var(--gold); }
+.cep-status[data-state="ok"] { color: #3f9b5f; }
+.cep-status[data-state="error"] { color: #c0392b; }
+[data-theme="dark"] .cep-status[data-state="ok"] { color: #7fd29b; }
+[data-theme="dark"] .cep-status[data-state="error"] { color: #e0675f; }
