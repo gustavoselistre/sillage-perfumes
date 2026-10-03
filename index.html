@@ -35,6 +35,14 @@
     "@type": "Store",
     "name": "Sillage Perfumes Importados",
     "telephone": "+55 51 99668-9650",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "R. Estácio dos Santos, 1144 - Parque dos Eucaliptos",
+      "addressLocality": "Gravataí",
+      "addressRegion": "RS",
+      "postalCode": "94130-420",
+      "addressCountry": "BR"
+    },
     "description": "Perfumaria árabe importada: Lattafa, Armaf, Rasasi e outras marcas.",
     "paymentAccepted": "Pix, Cartão de crédito, Cartão de débito, Transferência",
     "sameAs": ["https://www.instagram.com/sillageperfumesimportados/"]
@@ -241,6 +249,7 @@
         <a href="#" data-wa="Olá, Sillage! Vim pelo site e gostaria de uma indicação de perfume ✨">Pedir indicação no WhatsApp</a>
         <a href="https://www.instagram.com/sillageperfumesimportados/" data-insta-link target="_blank" rel="noopener">@sillageperfumesimportados</a>
         <p>Entrega ou retirada combinada pelo WhatsApp.</p>
+        <p>Retirada: <a href="#" target="_blank" rel="noopener" data-pickup-map data-pickup-address></a></p>
       </div>
       <div class="footer__col">
         <h3>Pagamento</h3>
@@ -294,6 +303,16 @@
             <label><input type="radio" name="mode" value="retirada"><span>Retirada</span></label>
           </div>
         </fieldset>
+
+        <div class="pickup" data-pickup hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          <div>
+            <strong>Retire na Sillage</strong>
+            <p data-pickup-address></p>
+            <p class="pickup__note">Combinamos o dia e o horário pelo WhatsApp.</p>
+            <a class="link-gold" href="#" target="_blank" rel="noopener" data-pickup-map>Ver no mapa →</a>
+          </div>
+        </div>
 
         <div class="address" data-address-field>
           <div class="address__row">

@@ -186,6 +186,11 @@
   // Fundo em gradiente na cor da fragrância (como nas artes do Instagram).
   const bgStyle = (colors) => (colors ? `--c1:${colors[0]};--c2:${colors[1]}` : "");
 
+  const pickupText = () => {
+    const pk = CONFIG.pickup;
+    return `${pk.street} – ${pk.district}, ${pk.city} – CEP ${pk.cep}`;
+  };
+
   /* ---------- Config na página ---------- */
   function bindConfig() {
     $$("[data-config]").forEach((el) => {
@@ -198,6 +203,10 @@
       el.rel = "noopener";
     });
     $$("[data-insta-link]").forEach((el) => (el.href = instaUrl));
+    const pk = CONFIG.pickup;
+    $$("[data-pickup-address]").forEach((el) => (el.textContent = pickupText()));
+    $$("[data-pickup-map]").forEach((el) =>
+      (el.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(pk.coords || `${pk.street}, ${pk.district}, ${pk.city}, ${pk.cep}`)}`));
     $("[data-year]").textContent = new Date().getFullYear();
     $("[data-payment-select]").innerHTML = CONFIG.payments
       .map((p) => `<option>${escapeHtml(p)}</option>`)
@@ -894,6 +903,7 @@
 
     const syncMode = () => {
       addressField.hidden = form.elements.mode.value !== "entrega";
+      $("[data-pickup]").hidden = form.elements.mode.value !== "retirada";
       installmentsField.hidden = !isCredit();
     };
     enhanceSelect(form.elements.payment);
@@ -963,7 +973,7 @@
       lines.push(
         "",
         `*Nome:* ${data.name}`,
-        `*Recebimento:* ${data.mode === "entrega" ? "Entrega" : "Retirada (combinar local)"}`
+        `*Recebimento:* ${data.mode === "entrega" ? "Entrega" : `Retirada em ${pickupText()}`}`
       );
       if (data.mode === "entrega") {
         const addr = [data.address, data.number && `nº ${data.number}`].filter(Boolean).join(", ");

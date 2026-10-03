@@ -1099,3 +1099,16 @@ img.photo {
 .cep-status[data-state="error"] { color: #c0392b; }
 [data-theme="dark"] .cep-status[data-state="ok"] { color: #7fd29b; }
 [data-theme="dark"] .cep-status[data-state="error"] { color: #e0675f; }
+
+/* ---------- Endereço de retirada (sacola) ---------- */
+.pickup {
+  display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: start;
+  padding: 16px; border-radius: 16px; border: 1px solid var(--gold);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 14%, transparent), transparent 70%);
+  animation: cselect-in 0.25s var(--ease);
+}
+.pickup > svg { width: 40px; height: 40px; padding: 9px; border-radius: 50%; color: var(--on-gold); background: var(--gold-grad); }
+.pickup strong { display: block; font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--heading); line-height: 1.2; }
+.pickup p { font-size: 14px; color: var(--text); margin-top: 4px; }
+.pickup .pickup__note { color: var(--muted); font-size: 13px; }
+.pickup a { display: inline-block; margin-top: 8px; font-size: 14px; }

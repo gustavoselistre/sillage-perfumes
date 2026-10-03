@@ -6,6 +6,15 @@ const CONFIG = {
   whatsapp: "5551996689650",
   whatsappDisplay: "(51) 99668-9650",
   instagram: "sillageperfumesimportados",
+  // Endereço de retirada: aparece na sacola ao escolher "Retirada", no rodapé e na mensagem do pedido.
+  pickup: {
+    street: "R. Estácio dos Santos, 1144",
+    district: "Parque dos Eucaliptos",
+    city: "Gravataí/RS",
+    cep: "94130-420",
+    // Ponto exato no mapa ("lat,lng"). Se ficar vazio, o mapa procura pelo endereço (pode errar o pin).
+    coords: "-29.929306,-51.033518",
+  },
   payments: ["Pix", "Cartão de crédito", "Cartão de débito", "Transferência"],
   // Ao escolher "Cartão de crédito", o checkout pergunta em quantas vezes (1x até maxInstallments).
   creditCard: "Cartão de crédito",
