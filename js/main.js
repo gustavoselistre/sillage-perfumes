@@ -940,7 +940,8 @@
           cepStatus.dataset.state = "error";
           return;
         }
-        const street = [d.logradouro, d.complemento].filter(Boolean).join(" – ");
+        // Complemento do CEP às vezes vem entre parênteses, ex.: "(Bom Sucesso)".
+        const street = [d.logradouro, d.complemento && (d.complemento.startsWith("(") ? d.complemento : `(${d.complemento})`)].filter(Boolean).join(" ");
         const place = [street, d.bairro, d.localidade && `${d.localidade}/${d.uf}`].filter(Boolean).join(", ");
         form.elements.address.value = place;
         form.elements.address.classList.remove("is-invalid");
