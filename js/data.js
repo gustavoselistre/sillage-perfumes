@@ -437,7 +437,7 @@ const PRODUCTS = [
   },
   {
     id: "dalal", brand: "Al-Rehab", name: "Dalal", category: "feminino",
-    families: ["floral", "gourmand"], price: 439, soldOut: true,
+    families: ["floral", "gourmand"], price: 439,
     notes: { topo: "Caramelo e ameixa.", coracao: "Flor de laranjeira, jasmim e rosa.", fundo: "Fava-tonka, sândalo, almíscar e cedro." },
     image: "img/products/dalal.jpg", bottle: { bg: ["#e8a3b3", "#5b2433"] }, // pág. 25
   },
@@ -479,7 +479,7 @@ const PRODUCTS = [
   },
   {
     id: "infinity-gold", brand: "Armaf", name: "Infinity Gold", category: "feminino",
-    families: ["floral"], price: 419, soldOut: true,
+    families: ["floral"], price: 419,
     notes: { topo: "Pera, lavanda, rosa.", coracao: "Ylang-ylang, jasmim.", fundo: "Baunilha, musk, musgo." },
     image: "img/products/infinity-gold.jpg", bottle: { bg: ["#e8a3b3", "#5b2433"] }, // pág. 27
   },
