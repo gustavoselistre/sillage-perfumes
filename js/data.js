@@ -292,6 +292,68 @@ const PRODUCTS = [
     image: "img/products/maahir-black.jpg", bottle: { bg: ["#d9822b", "#3d1d08"] }, // pág. 15
   },
   {
+    id: "kit-khamrah", brand: "Lattafa", name: "Kit Khamrah", category: "masculino",
+    families: ["oriental", "gourmand"], price: 479,
+    desc: "Kit com 3 itens da linha Khamrah.",
+    sizes: ["Kit 3 peças"],
+    bottle: { bg: ["#d9822b", "#3d1d08"] }, // novo — sem foto ainda
+  },
+  {
+    id: "vulcan-baie", brand: "French Avenue", name: "Vulcan Baie", category: "masculino",
+    families: [], price: 399,
+    desc: "Perfume árabe importado. Notas confirmadas pelo WhatsApp.",
+    bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // novo — sem foto ainda
+  },
+  {
+    id: "fahad", brand: "Lattafa", name: "Fahad", category: "masculino",
+    families: [], price: 399,
+    desc: "Perfume árabe importado. Notas confirmadas pelo WhatsApp.",
+    bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // novo — sem foto ainda
+  },
+  {
+    id: "azzure", brand: "French Avenue", name: "Azzure", category: "masculino",
+    families: [], price: 379,
+    desc: "Perfume árabe importado. Notas confirmadas pelo WhatsApp.",
+    bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // novo — sem foto ainda
+  },
+  {
+    id: "historic-sahara", brand: "Afnan", name: "Historic Sahara", category: "masculino",
+    families: [], price: 399,
+    desc: "Perfume árabe importado. Notas confirmadas pelo WhatsApp.",
+    bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // novo — sem foto ainda
+  },
+  {
+    id: "boss-bottled-parfum", brand: "Hugo Boss", name: "Boss Bottled Parfum", category: "masculino",
+    families: [], price: 479,
+    desc: "Parfum.",
+    sizes: ["100 ml"],
+    bottle: { bg: ["#d8b25a", "#2e1c08"] }, // novo — sem foto ainda
+  },
+  {
+    id: "azzaro-100", brand: "Azzaro", name: "Azzaro Pour Homme", category: "masculino",
+    families: [], price: 349,
+    sizes: ["100 ml"],
+    bottle: { bg: ["#d8b25a", "#2e1c08"] }, // novo — sem foto ainda
+  },
+  {
+    id: "azzaro-200", brand: "Azzaro", name: "Azzaro Pour Homme", category: "masculino",
+    families: [], price: 469,
+    sizes: ["200 ml"],
+    bottle: { bg: ["#d8b25a", "#2e1c08"] }, // novo — sem foto ainda
+  },
+  {
+    id: "golden-secret-100", brand: "Antonio Banderas", name: "The Golden Secret", category: "masculino",
+    families: [], price: 229,
+    sizes: ["100 ml"],
+    bottle: { bg: ["#d8b25a", "#2e1c08"] }, // novo — sem foto ainda
+  },
+  {
+    id: "golden-secret-200", brand: "Antonio Banderas", name: "The Golden Secret", category: "masculino",
+    families: [], price: 299,
+    sizes: ["200 ml"],
+    bottle: { bg: ["#d8b25a", "#2e1c08"] }, // novo — sem foto ainda
+  },
+  {
     id: "musamam-white", brand: "Lattafa", name: "Musamam White Intense", category: "feminino",
     families: ["oriental", "citrico"], price: 429,
     notes: { topo: "Especiarias, bergamota e laranja.", coracao: "Coco, ylang-ylang, ambroxan e mahonial.", fundo: "Sândalo, almíscar e benjoim." },
@@ -431,7 +493,7 @@ const PRODUCTS = [
   },
   {
     id: "hawas-elixir", brand: "Rasasi", name: "Hawas Elixir", category: "feminino",
-    families: ["gourmand", "aromatico"], price: null, soldOut: true,
+    families: ["gourmand", "aromatico"], price: 379,
     notes: { topo: "Hortelã, bergamota e artemísia.", coracao: "Chocolate amargo, lavanda e benjoim.", fundo: "Baunilha, fava-tonka e almíscar branco." },
     image: "img/products/hawas-elixir.jpg", bottle: { bg: ["#e9c79a", "#5a3a1c"] }, // pág. 25
   },
@@ -542,6 +604,31 @@ const PRODUCTS = [
     families: ["amadeirado", "floral"], price: null, soldOut: true,
     notes: { topo: "Bergamota, groselha-preta e abacaxi.", coracao: "Rosa, frésia e cedro.", fundo: "Sândalo, patchouli, almíscar e âmbar." },
     image: "img/products/laventure-femme.jpg", bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // pág. 31
+  },
+  {
+    id: "yara-elixir", brand: "Lattafa", name: "Yara Elixir", category: "feminino",
+    families: [], price: 379,
+    desc: "Perfume árabe importado. Notas confirmadas pelo WhatsApp.",
+    bottle: { bg: ["#e8a3b3", "#5b2433"] }, // novo — sem foto ainda
+  },
+  {
+    id: "hawas-her-eclat", brand: "Rasasi", name: "Hawas Her Éclat", category: "feminino",
+    families: [], price: 389,
+    desc: "Perfume árabe importado. Notas confirmadas pelo WhatsApp.",
+    bottle: { bg: ["#e8a3b3", "#5b2433"] }, // novo — sem foto ainda
+  },
+  {
+    id: "cocoa-morado", brand: "", name: "Cocoa Morado", category: "feminino",
+    families: [], price: 379,
+    desc: "Perfume importado. Notas confirmadas pelo WhatsApp.",
+    bottle: { bg: ["#e8a3b3", "#5b2433"] }, // novo — sem foto ainda
+  },
+  {
+    id: "la-vie-est-belle", brand: "Lancôme", name: "La Vie Est Belle EDP", category: "feminino",
+    families: [], price: 769,
+    desc: "Eau de Parfum.",
+    sizes: ["100 ml"],
+    bottle: { bg: ["#d8b25a", "#2e1c08"] }, // novo — sem foto ainda
   },
   {
     id: "creme-precieux", brand: "Armaf", name: "Body Cream Club de Nuit Précieux I", category: "hidratantes",
