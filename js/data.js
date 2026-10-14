@@ -19,6 +19,8 @@ const CONFIG = {
   // Ao escolher "Cartão de crédito", o checkout pergunta em quantas vezes (1x até maxInstallments).
   creditCard: "Cartão de crédito",
   maxInstallments: 6, // até 6x sem juros
+  // Vendedor que atendeu o cliente. O primeiro item é o padrão do checkout.
+  sellers: ["Sem vendedor", "Mônica", "Suelen", "Felipe"],
 };
 
 /* Famílias olfativas. "todos" é o filtro inicial.
