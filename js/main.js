@@ -211,6 +211,9 @@
     $("[data-payment-select]").innerHTML = CONFIG.payments
       .map((p) => `<option>${escapeHtml(p)}</option>`)
       .join("");
+    $("[data-seller-select]").innerHTML = CONFIG.sellers
+      .map((s) => `<option>${escapeHtml(s)}</option>`)
+      .join("");
   }
 
   /* ---------- Tema claro / escuro ---------- */
@@ -908,6 +911,7 @@
     };
     enhanceSelect(form.elements.payment);
     enhanceSelect(installmentsSelect);
+    enhanceSelect(form.elements.seller);
     renderInstallments();
     syncMode();
     form.addEventListener("change", syncMode);
@@ -986,6 +990,7 @@
       } else {
         lines.push(`*Pagamento:* ${data.payment}`);
       }
+      lines.push(`*Vendedor:* ${data.seller}`);
       if (data.notes) lines.push(`*Obs.:* ${data.notes}`);
       lines.push("", "Pode confirmar os valores e a disponibilidade? Obrigado!");
       return lines.join("\n");
@@ -1000,6 +1005,7 @@
         number: form.elements.number.value.trim(),
         payment: form.elements.payment.value,
         installments: isCredit() ? Number(installmentsSelect.value) || 1 : null,
+        seller: form.elements.seller.value || CONFIG.sellers[0],
         notes: form.elements.notes.value.trim(),
       };
       if (!cart.items.length) { errorEl.textContent = "Sua sacola está vazia."; return; }
