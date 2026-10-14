@@ -105,7 +105,7 @@ const PRODUCTS = [
   },
   {
     id: "liquid-brun", brand: "French Avenue", name: "Liquid Brun", category: "masculino",
-    families: ["amadeirado", "gourmand"], price: 399,
+    families: ["amadeirado", "gourmand"], price: 419,
     notes: { topo: "Canela, flor de laranjeira, cardamomo e bergamota.", coracao: "Baunilha bourbon e elemi.", fundo: "Pralinê, ambroxan, madeira guaiaco e almíscar." },
     image: "img/products/liquid-brun.jpg", bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // pág. 5
   },
@@ -293,7 +293,7 @@ const PRODUCTS = [
   },
   {
     id: "musamam-white", brand: "Lattafa", name: "Musamam White Intense", category: "feminino",
-    families: ["oriental", "citrico"], price: 389,
+    families: ["oriental", "citrico"], price: 429,
     notes: { topo: "Especiarias, bergamota e laranja.", coracao: "Coco, ylang-ylang, ambroxan e mahonial.", fundo: "Sândalo, almíscar e benjoim." },
     image: "img/products/musamam-white.jpg", bottle: { bg: ["#d9822b", "#3d1d08"] }, // pág. 17
   },
@@ -311,7 +311,7 @@ const PRODUCTS = [
   },
   {
     id: "afeef", brand: "Lattafa", name: "Afeef", category: "feminino",
-    families: ["floral"], price: 549,
+    families: ["floral"], price: 579,
     notes: { topo: "Pêssego, pimenta-rosa e bergamota.", coracao: "Tuberosa, flor de laranjeira e jasmim.", fundo: "Pralinê, âmbar, sândalo e patchouli." },
     image: "img/products/afeef.jpg", bottle: { bg: ["#e8a3b3", "#5b2433"] }, // pág. 18
   },
@@ -437,7 +437,7 @@ const PRODUCTS = [
   },
   {
     id: "dalal", brand: "Al-Rehab", name: "Dalal", category: "feminino",
-    families: ["floral", "gourmand"], price: null, soldOut: true,
+    families: ["floral", "gourmand"], price: 439, soldOut: true,
     notes: { topo: "Caramelo e ameixa.", coracao: "Flor de laranjeira, jasmim e rosa.", fundo: "Fava-tonka, sândalo, almíscar e cedro." },
     image: "img/products/dalal.jpg", bottle: { bg: ["#e8a3b3", "#5b2433"] }, // pág. 25
   },
@@ -479,7 +479,7 @@ const PRODUCTS = [
   },
   {
     id: "infinity-gold", brand: "Armaf", name: "Infinity Gold", category: "feminino",
-    families: ["floral"], price: null, soldOut: true,
+    families: ["floral"], price: 419, soldOut: true,
     notes: { topo: "Pera, lavanda, rosa.", coracao: "Ylang-ylang, jasmim.", fundo: "Baunilha, musk, musgo." },
     image: "img/products/infinity-gold.jpg", bottle: { bg: ["#e8a3b3", "#5b2433"] }, // pág. 27
   },
