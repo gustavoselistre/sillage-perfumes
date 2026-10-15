@@ -540,7 +540,7 @@ const PRODUCTS = [
   },
   {
     id: "sehr", brand: "Lattafa", name: "Sehr", category: "feminino",
-    families: ["gourmand", "floral"], price: 369,
+    families: ["gourmand", "floral"], price: 389,
     notes: { topo: "Canela e amêndoa amarga.", coracao: "Jasmim, pomarose e akigalawood.", fundo: "Baunilha absoluta, fava-tonka e âmbar." },
     image: "img/products/sehr.jpg", bottle: { bg: ["#e9c79a", "#5a3a1c"] }, // pág. 27
   },
