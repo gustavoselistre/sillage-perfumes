@@ -499,6 +499,21 @@
     renderProducts();
   }
 
+  // Botões de volume agrupados em "Frasco" e "Decante"; o botão mostra só o ml.
+  function sizePicker(opts, current, decant) {
+    const btn = (o) => `<button class="size" type="button" data-size="${escapeHtml(o.size)}" aria-pressed="${o.size === current}">${escapeHtml(o.size.replace(/^(Frasco|Decante) /, ""))}</button>`;
+    if (!decant) return `<div class="product__options" role="group" aria-label="Tamanho">${opts.map(btn).join("")}</div>`;
+    const groups = [["Frasco", opts.filter((o) => o.size.startsWith("Frasco "))], ["Decante", opts.filter((o) => o.size.startsWith("Decante "))]];
+    return `
+        <p class="product__purchase-title">Escolha o volume</p>
+        ${groups.map(([label, list]) => `
+        <div class="size-group" role="group" aria-label="${label}">
+          <span class="size-group__label">${label}</span>
+          <div class="product__options">${list.map(btn).join("")}</div>
+        </div>`).join("")}
+        <p class="product__decant-note">${escapeHtml(DECANT.note)}</p>`;
+  }
+
   function productCard(p, index) {
     const st = productState.get(p.id);
     const opts = sizeOptions(p);
@@ -525,14 +540,12 @@
           <div><dt>Fundo</dt><dd>${escapeHtml(p.notes.fundo)}</dd></div>
         </dl>` : ""}
         ${p.desc ? `<p class="product__desc">${escapeHtml(p.desc)}</p>` : ""}
-        ${opts.length > 1 ? `
-        <div class="product__options" role="group" aria-label="Tamanho">
-          ${opts.map((o) => `<button class="size" type="button" data-size="${escapeHtml(o.size)}" aria-pressed="${o.size === st.size}">${escapeHtml(o.size)}</button>`).join("")}
-        </div>` : opts[0].size ? `<p class="product__size">${escapeHtml(opts[0].size)}</p>` : ""}
-        ${hasDecant(p) ? `<p class="product__decant-note">${escapeHtml(DECANT.note)}</p>` : ""}
+        <div class="product__purchase">
+        ${opts.length > 1 ? sizePicker(opts, st.size, hasDecant(p)) : opts[0].size ? `<p class="product__size">${escapeHtml(opts[0].size)}</p>` : ""}
         ${priceHtml(p, st.size)}
         ${p.soldOut ? `
-        <a class="btn btn--ghost product__notify" href="${escapeHtml(waUrl(ask))}" target="_blank" rel="noopener">${ICONS.chat}Avise-me quando chegar</a>` : `
+        <a class="btn btn--ghost product__notify" href="${escapeHtml(waUrl(ask))}" target="_blank" rel="noopener">${ICONS.chat}Avise-me quando chegar</a>
+        </div>` : `
         <div class="product__buy">
           <div class="qty" role="group" aria-label="Quantidade">
             <button type="button" data-qty="-1" aria-label="Diminuir quantidade">−</button>
@@ -540,6 +553,7 @@
             <button type="button" data-qty="1" aria-label="Aumentar quantidade">+</button>
           </div>
           <button class="btn btn--gold" type="button" data-add>${ICONS.bag}Adicionar</button>
+        </div>
         </div>
         <a class="product__ask" href="${escapeHtml(waUrl(ask))}" target="_blank" rel="noopener">${ICONS.chat}Tirar dúvida no WhatsApp</a>`}
       </div>
