@@ -292,6 +292,73 @@ const PRODUCTS = [
     image: "img/products/maahir-black.jpg", bottle: { bg: ["#d9822b", "#3d1d08"] }, // pág. 15
   },
   {
+    id: "kit-khamrah", brand: "Lattafa", name: "Kit Khamrah", category: "masculino",
+    families: ["oriental", "gourmand"], price: 479,
+    notes: { topo: "Bergamota, canela e noz-moscada.", coracao: "Tâmaras, pralinê, tuberosa e mahonial.", fundo: "Baunilha, fava-tonka, benjoim, mirra e madeiras ambaradas." },
+    desc: "Kit com 3 itens: Khamrah EDP 100 ml e mais 2 itens da linha (o conteúdo é confirmado pelo WhatsApp).",
+    sizes: ["Kit 3 peças"],
+    image: "img/products/kit-khamrah.jpg", bottle: { bg: ["#d9822b", "#3d1d08"] }, // foto de loja online
+  },
+  {
+    id: "vulcan-baie", brand: "French Avenue", name: "Vulcan Baie", category: "masculino",
+    families: ["frutado", "amadeirado"], price: 399,
+    notes: { topo: "Amora, cassis, alecrim e bergamota.", coracao: "Vodka, framboesa, lírio-do-vale e manjericão.", fundo: "Morango, pêssego, âmbar, almíscar, sândalo, patchouli e incenso." },
+    image: "img/products/vulcan-baie.jpg", bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // foto de loja online
+  },
+  {
+    id: "fahad", brand: "Lattafa", name: "Fahad", category: "masculino",
+    families: ["aromatico", "amadeirado"], price: 399,
+    notes: { topo: "Pimenta-preta, tangerina e abacaxi.", coracao: "Artemísia, lavanda e flor de laranjeira.", fundo: "Ambroxan, cedro, incenso e patchouli." },
+    image: "img/products/fahad.jpg", bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // foto de loja online
+  },
+  {
+    id: "azzure", brand: "French Avenue", name: "Azzure", category: "masculino",
+    families: ["oriental", "amadeirado"], price: 379,
+    notes: { topo: "Açafrão, maracujá e rosa.", coracao: "Oud, benjoim e patchouli.", fundo: "Couro, madeiras e baunilha." },
+    image: "img/products/azzure.jpg", bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // foto de loja online
+  },
+  {
+    id: "historic-sahara", brand: "Afnan", name: "Historic Sahara", category: "masculino",
+    families: ["gourmand", "oriental"], price: 399,
+    notes: { topo: "Cardamomo, canela e bergamota.", coracao: "Baunilha, açúcar e elemi.", fundo: "Pralinê, ambroxan, amêndoa, fava-tonka e almíscar." },
+    image: "img/products/historic-sahara.jpg", bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // foto de loja online
+  },
+  {
+    id: "boss-bottled-parfum", brand: "Hugo Boss", name: "Boss Bottled Parfum", category: "masculino",
+    families: ["amadeirado", "aromatico"], price: 479,
+    notes: { topo: "Tangerina e incenso.", coracao: "Íris e acorde de raiz de figueira.", fundo: "Cedro e acorde de couro." },
+    sizes: ["100 ml"],
+    image: "img/products/boss-bottled-parfum.jpg", bottle: { bg: ["#d8b25a", "#2e1c08"] }, // foto de loja online
+  },
+  {
+    id: "azzaro-100", brand: "Azzaro", name: "Azzaro Pour Homme", category: "masculino",
+    families: ["aromatico", "amadeirado"], price: 349,
+    notes: { topo: "Anis, lavanda, manjericão, sálvia, bergamota e limão.", coracao: "Cardamomo, zimbro, patchouli, vetiver e cedro.", fundo: "Couro, fava-tonka, âmbar, almíscar e musgo de carvalho." },
+    sizes: ["100 ml"],
+    image: "img/products/azzaro.jpg", bottle: { bg: ["#d8b25a", "#2e1c08"] }, // foto de loja online
+  },
+  {
+    id: "azzaro-200", brand: "Azzaro", name: "Azzaro Pour Homme", category: "masculino",
+    families: ["aromatico", "amadeirado"], price: 469,
+    notes: { topo: "Anis, lavanda, manjericão, sálvia, bergamota e limão.", coracao: "Cardamomo, zimbro, patchouli, vetiver e cedro.", fundo: "Couro, fava-tonka, âmbar, almíscar e musgo de carvalho." },
+    sizes: ["200 ml"],
+    image: "img/products/azzaro.jpg", bottle: { bg: ["#d8b25a", "#2e1c08"] }, // foto de loja online
+  },
+  {
+    id: "golden-secret-100", brand: "Antonio Banderas", name: "The Golden Secret", category: "masculino",
+    families: ["aromatico", "amadeirado"], price: 229,
+    notes: { topo: "Menta, maçã verde e notas verdes.", coracao: "Noz-moscada, cominho e pimenta.", fundo: "Cedro, incenso, couro e almíscar." },
+    sizes: ["100 ml"],
+    image: "img/products/golden-secret.jpg", bottle: { bg: ["#d8b25a", "#2e1c08"] }, // foto de loja online
+  },
+  {
+    id: "golden-secret-200", brand: "Antonio Banderas", name: "The Golden Secret", category: "masculino",
+    families: ["aromatico", "amadeirado"], price: 299,
+    notes: { topo: "Menta, maçã verde e notas verdes.", coracao: "Noz-moscada, cominho e pimenta.", fundo: "Cedro, incenso, couro e almíscar." },
+    sizes: ["200 ml"],
+    image: "img/products/golden-secret.jpg", bottle: { bg: ["#d8b25a", "#2e1c08"] }, // foto de loja online
+  },
+  {
     id: "musamam-white", brand: "Lattafa", name: "Musamam White Intense", category: "feminino",
     families: ["oriental", "citrico"], price: 429,
     notes: { topo: "Especiarias, bergamota e laranja.", coracao: "Coco, ylang-ylang, ambroxan e mahonial.", fundo: "Sândalo, almíscar e benjoim." },
@@ -431,7 +498,7 @@ const PRODUCTS = [
   },
   {
     id: "hawas-elixir", brand: "Rasasi", name: "Hawas Elixir", category: "feminino",
-    families: ["gourmand", "aromatico"], price: null, soldOut: true,
+    families: ["gourmand", "aromatico"], price: 379,
     notes: { topo: "Hortelã, bergamota e artemísia.", coracao: "Chocolate amargo, lavanda e benjoim.", fundo: "Baunilha, fava-tonka e almíscar branco." },
     image: "img/products/hawas-elixir.jpg", bottle: { bg: ["#e9c79a", "#5a3a1c"] }, // pág. 25
   },
@@ -542,6 +609,31 @@ const PRODUCTS = [
     families: ["amadeirado", "floral"], price: null, soldOut: true,
     notes: { topo: "Bergamota, groselha-preta e abacaxi.", coracao: "Rosa, frésia e cedro.", fundo: "Sândalo, patchouli, almíscar e âmbar." },
     image: "img/products/laventure-femme.jpg", bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // pág. 31
+  },
+  {
+    id: "yara-elixir", brand: "Lattafa", name: "Yara Elixir", category: "feminino",
+    families: ["gourmand", "frutado"], price: 379,
+    notes: { topo: "Morango e cassis.", coracao: "Jasmim e flor de laranjeira.", fundo: "Baunilha, caramelo, âmbar e almíscar." },
+    image: "img/products/yara-elixir.jpg", bottle: { bg: ["#e8a3b3", "#5b2433"] }, // foto de loja online
+  },
+  {
+    id: "hawas-her-eclat", brand: "Rasasi", name: "Hawas Éclat for Her", category: "feminino",
+    families: ["floral", "oriental"], price: 389,
+    notes: { topo: "Lichia, bergamota, pera e pistache.", coracao: "Rosa e incenso.", fundo: "Baunilha, âmbar, almíscar e madeiras." },
+    image: "img/products/hawas-her-eclat.jpg", bottle: { bg: ["#e8a3b3", "#5b2433"] }, // foto de loja online
+  },
+  {
+    id: "cocoa-morado", brand: "French Avenue", name: "Cocoa Morado", category: "feminino",
+    families: ["gourmand", "oriental"], price: 379,
+    notes: { topo: "Canela, cardamomo, pimenta-rosa, açafrão e gengibre.", coracao: "Caramelo, tâmaras, oud, incenso e mirra.", fundo: "Baunilha, fava-tonka, benjoim, manteiga de cacau, couro e patchouli." },
+    image: "img/products/cocoa-morado.jpg", bottle: { bg: ["#e8a3b3", "#5b2433"] }, // foto de loja online
+  },
+  {
+    id: "la-vie-est-belle", brand: "Lancôme", name: "La Vie Est Belle EDP", category: "feminino",
+    families: ["gourmand", "floral"], price: 769,
+    notes: { topo: "Cassis e pera.", coracao: "Íris, jasmim e flor de laranjeira.", fundo: "Pralinê, baunilha, patchouli e fava-tonka." },
+    sizes: ["100 ml"],
+    image: "img/products/la-vie-est-belle.jpg", bottle: { bg: ["#d8b25a", "#2e1c08"] }, // foto de loja online
   },
   {
     id: "creme-precieux", brand: "Armaf", name: "Body Cream Club de Nuit Précieux I", category: "hidratantes",
