@@ -402,7 +402,7 @@ const PRODUCTS = [
   },
   {
     id: "sabah-al-ward-sugar", brand: "Al Wataniah", name: "Sabah Al Ward Sugar", category: "feminino",
-    families: ["frutado", "floral"], price: 219, soldOut: true,
+    families: ["frutado", "floral"], price: 219,
     notes: { topo: "Morango, framboesa, groselha, mirtilo e cereja.", coracao: "Violeta e jasmim.", fundo: "Rosa, baunilha, âmbar, almíscar e patchouli." },
     image: "img/products/sabah-al-ward-sugar.jpg", bottle: { bg: ["#f0a35c", "#6b2e12"] }, // pág. 19
   },
