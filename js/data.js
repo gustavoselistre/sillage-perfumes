@@ -312,7 +312,7 @@ const PRODUCTS = [
     image: "img/products/fahad.jpg", bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // foto de loja online
   },
   {
-    id: "azzure", brand: "French Avenue", name: "Azzure", category: "masculino",
+    id: "azzure", brand: "French Avenue", name: "Azzure Aoud", category: "masculino",
     families: ["oriental", "amadeirado"], price: 379,
     notes: { topo: "Açafrão, maracujá e rosa.", coracao: "Oud, benjoim e patchouli.", fundo: "Couro, madeiras e baunilha." },
     image: "img/products/azzure.jpg", bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // foto de loja online
