@@ -294,62 +294,67 @@ const PRODUCTS = [
   {
     id: "kit-khamrah", brand: "Lattafa", name: "Kit Khamrah", category: "masculino",
     families: ["oriental", "gourmand"], price: 479,
-    desc: "Kit com 3 itens da linha Khamrah.",
+    notes: { topo: "Bergamota, canela e noz-moscada.", coracao: "Tâmaras, pralinê, tuberosa e mahonial.", fundo: "Baunilha, fava-tonka, benjoim, mirra e madeiras ambaradas." },
+    desc: "Kit com 3 itens: Khamrah EDP 100 ml e mais 2 itens da linha (o conteúdo é confirmado pelo WhatsApp).",
     sizes: ["Kit 3 peças"],
     bottle: { bg: ["#d9822b", "#3d1d08"] }, // novo — sem foto ainda
   },
   {
     id: "vulcan-baie", brand: "French Avenue", name: "Vulcan Baie", category: "masculino",
-    families: [], price: 399,
-    desc: "Perfume árabe importado. Notas confirmadas pelo WhatsApp.",
+    families: ["frutado", "amadeirado"], price: 399,
+    notes: { topo: "Amora, cassis, alecrim e bergamota.", coracao: "Vodka, framboesa, lírio-do-vale e manjericão.", fundo: "Morango, pêssego, âmbar, almíscar, sândalo, patchouli e incenso." },
     bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // novo — sem foto ainda
   },
   {
     id: "fahad", brand: "Lattafa", name: "Fahad", category: "masculino",
-    families: [], price: 399,
-    desc: "Perfume árabe importado. Notas confirmadas pelo WhatsApp.",
+    families: ["aromatico", "amadeirado"], price: 399,
+    notes: { topo: "Pimenta-preta, tangerina e abacaxi.", coracao: "Artemísia, lavanda e flor de laranjeira.", fundo: "Ambroxan, cedro, incenso e patchouli." },
     bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // novo — sem foto ainda
   },
   {
     id: "azzure", brand: "French Avenue", name: "Azzure", category: "masculino",
-    families: [], price: 379,
-    desc: "Perfume árabe importado. Notas confirmadas pelo WhatsApp.",
+    families: ["oriental", "amadeirado"], price: 379,
+    notes: { topo: "Açafrão, maracujá e rosa.", coracao: "Oud, benjoim e patchouli.", fundo: "Couro, madeiras e baunilha." },
     bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // novo — sem foto ainda
   },
   {
     id: "historic-sahara", brand: "Afnan", name: "Historic Sahara", category: "masculino",
-    families: [], price: 399,
-    desc: "Perfume árabe importado. Notas confirmadas pelo WhatsApp.",
+    families: ["gourmand", "oriental"], price: 399,
+    notes: { topo: "Cardamomo, canela e bergamota.", coracao: "Baunilha, açúcar e elemi.", fundo: "Pralinê, ambroxan, amêndoa, fava-tonka e almíscar." },
     bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // novo — sem foto ainda
   },
   {
     id: "boss-bottled-parfum", brand: "Hugo Boss", name: "Boss Bottled Parfum", category: "masculino",
-    families: [], price: 479,
-    desc: "Parfum.",
+    families: ["amadeirado", "aromatico"], price: 479,
+    notes: { topo: "Tangerina e incenso.", coracao: "Íris e acorde de raiz de figueira.", fundo: "Cedro e acorde de couro." },
     sizes: ["100 ml"],
     bottle: { bg: ["#d8b25a", "#2e1c08"] }, // novo — sem foto ainda
   },
   {
     id: "azzaro-100", brand: "Azzaro", name: "Azzaro Pour Homme", category: "masculino",
-    families: [], price: 349,
+    families: ["aromatico", "amadeirado"], price: 349,
+    notes: { topo: "Anis, lavanda, manjericão, sálvia, bergamota e limão.", coracao: "Cardamomo, zimbro, patchouli, vetiver e cedro.", fundo: "Couro, fava-tonka, âmbar, almíscar e musgo de carvalho." },
     sizes: ["100 ml"],
     bottle: { bg: ["#d8b25a", "#2e1c08"] }, // novo — sem foto ainda
   },
   {
     id: "azzaro-200", brand: "Azzaro", name: "Azzaro Pour Homme", category: "masculino",
-    families: [], price: 469,
+    families: ["aromatico", "amadeirado"], price: 469,
+    notes: { topo: "Anis, lavanda, manjericão, sálvia, bergamota e limão.", coracao: "Cardamomo, zimbro, patchouli, vetiver e cedro.", fundo: "Couro, fava-tonka, âmbar, almíscar e musgo de carvalho." },
     sizes: ["200 ml"],
     bottle: { bg: ["#d8b25a", "#2e1c08"] }, // novo — sem foto ainda
   },
   {
     id: "golden-secret-100", brand: "Antonio Banderas", name: "The Golden Secret", category: "masculino",
-    families: [], price: 229,
+    families: ["aromatico", "amadeirado"], price: 229,
+    notes: { topo: "Menta, maçã verde e notas verdes.", coracao: "Noz-moscada, cominho e pimenta.", fundo: "Cedro, incenso, couro e almíscar." },
     sizes: ["100 ml"],
     bottle: { bg: ["#d8b25a", "#2e1c08"] }, // novo — sem foto ainda
   },
   {
     id: "golden-secret-200", brand: "Antonio Banderas", name: "The Golden Secret", category: "masculino",
-    families: [], price: 299,
+    families: ["aromatico", "amadeirado"], price: 299,
+    notes: { topo: "Menta, maçã verde e notas verdes.", coracao: "Noz-moscada, cominho e pimenta.", fundo: "Cedro, incenso, couro e almíscar." },
     sizes: ["200 ml"],
     bottle: { bg: ["#d8b25a", "#2e1c08"] }, // novo — sem foto ainda
   },
@@ -607,26 +612,26 @@ const PRODUCTS = [
   },
   {
     id: "yara-elixir", brand: "Lattafa", name: "Yara Elixir", category: "feminino",
-    families: [], price: 379,
-    desc: "Perfume árabe importado. Notas confirmadas pelo WhatsApp.",
+    families: ["gourmand", "frutado"], price: 379,
+    notes: { topo: "Morango e cassis.", coracao: "Jasmim e flor de laranjeira.", fundo: "Baunilha, caramelo, âmbar e almíscar." },
     bottle: { bg: ["#e8a3b3", "#5b2433"] }, // novo — sem foto ainda
   },
   {
-    id: "hawas-her-eclat", brand: "Rasasi", name: "Hawas Her Éclat", category: "feminino",
-    families: [], price: 389,
-    desc: "Perfume árabe importado. Notas confirmadas pelo WhatsApp.",
+    id: "hawas-her-eclat", brand: "Rasasi", name: "Hawas Éclat for Her", category: "feminino",
+    families: ["floral", "oriental"], price: 389,
+    notes: { topo: "Lichia, bergamota, pera e pistache.", coracao: "Rosa e incenso.", fundo: "Baunilha, âmbar, almíscar e madeiras." },
     bottle: { bg: ["#e8a3b3", "#5b2433"] }, // novo — sem foto ainda
   },
   {
-    id: "cocoa-morado", brand: "", name: "Cocoa Morado", category: "feminino",
-    families: [], price: 379,
-    desc: "Perfume importado. Notas confirmadas pelo WhatsApp.",
+    id: "cocoa-morado", brand: "French Avenue", name: "Cocoa Morado", category: "feminino",
+    families: ["gourmand", "oriental"], price: 379,
+    notes: { topo: "Canela, cardamomo, pimenta-rosa, açafrão e gengibre.", coracao: "Caramelo, tâmaras, oud, incenso e mirra.", fundo: "Baunilha, fava-tonka, benjoim, manteiga de cacau, couro e patchouli." },
     bottle: { bg: ["#e8a3b3", "#5b2433"] }, // novo — sem foto ainda
   },
   {
     id: "la-vie-est-belle", brand: "Lancôme", name: "La Vie Est Belle EDP", category: "feminino",
-    families: [], price: 769,
-    desc: "Eau de Parfum.",
+    families: ["gourmand", "floral"], price: 769,
+    notes: { topo: "Cassis e pera.", coracao: "Íris, jasmim e flor de laranjeira.", fundo: "Pralinê, baunilha, patchouli e fava-tonka." },
     sizes: ["100 ml"],
     bottle: { bg: ["#d8b25a", "#2e1c08"] }, // novo — sem foto ainda
   },
