@@ -304,7 +304,7 @@ const PRODUCTS = [
     id: "kit-khamrah", brand: "Lattafa", name: "Kit Khamrah", category: "masculino",
     families: ["oriental", "gourmand"], price: 479, decant: false,
     notes: { topo: "Bergamota, canela e noz-moscada.", coracao: "Tâmaras, pralinê, tuberosa e mahonial.", fundo: "Baunilha, fava-tonka, benjoim, mirra e madeiras ambaradas." },
-    desc: "Kit com 3 itens: Khamrah EDP 100 ml e mais 2 itens da linha (o conteúdo é confirmado pelo WhatsApp).",
+    desc: "Kit com 3 itens: Eau de Parfum Natural Spray 100 ml, Travel Spray 12 ml e Hair Mist 50 ml.",
     sizes: ["Kit 3 peças"],
     image: "img/products/kit-khamrah.jpg", bottle: { bg: ["#d9822b", "#3d1d08"] }, // foto de loja online
   },
