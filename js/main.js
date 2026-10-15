@@ -19,6 +19,41 @@
     value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
   const productById = (id) => PRODUCTS.find((p) => p.id === id);
+
+  /* ---------- Tamanhos: frascos e decantes ----------
+     Cada produto vira uma lista de opções { size, price }. "size" é o texto do botão, da sacola e do
+     WhatsApp. Decante: o ml do 5 ml custa o dobro do ml do frasco; o 10 ml sai 15% mais barato por ml
+     que o 5 ml. Preço sempre arredondado pra cima até o próximo final 9,90. */
+  const DECANT = CONFIG.decant;
+  const hasDecant = (p) => DECANT.categories.includes(p.category) && !p.soldOut && p.decant !== false;
+  // 34,90 → 39,90 · 35,00 → 39,90 · 40,00 → 49,90 · 59,90 → 59,90 (conta em centavos, sem erro de float).
+  const upTo990 = (value) => (Math.ceil((Math.ceil(Math.round(value * 1e6) / 1e4) + 10) / 1000) * 1000 - 10) / 100;
+  const mlOf = (size) => { const m = /(\d+)\s*ml/i.exec(size || ""); return m ? Number(m[1]) : null; };
+
+  const optionCache = new Map();
+  function sizeOptions(p) {
+    if (optionCache.has(p.id)) return optionCache.get(p.id);
+    const decant = hasDecant(p);
+    const baseSize = (p.sizes && p.sizes[0]) || (decant ? `${p.volume || 100} ml` : "");
+    const bottles = p.bottles || [{ size: baseSize, price: p.price }];
+    const opts = bottles.map((b) => ({ size: decant ? `Frasco ${b.size}` : b.size, price: b.price }));
+    if (decant) {
+      // Base do decante: o frasco de 100 ml, se houver; senão o primeiro.
+      const base = bottles.find((b) => mlOf(b.size) === 100) || bottles[0];
+      const perMl = base.price == null ? null : base.price / (p.volume || mlOf(base.size) || 100);
+      const five = perMl == null ? null : perMl * 2 * 5;
+      DECANT.sizes.forEach((ml) => {
+        const raw = five == null ? null : ml === 5 ? five : five / 5 * 0.85 * ml;
+        opts.push({ size: `Decante ${ml} ml`, price: raw == null ? null : upTo990(raw) });
+      });
+    }
+    optionCache.set(p.id, opts);
+    return opts;
+  }
+  const priceFor = (p, size) => {
+    const o = sizeOptions(p).find((x) => x.size === size);
+    return o ? o.price : p.price;
+  };
   const familyLabel = (id) => (FAMILIES.find((f) => f.id === id) || {}).label || id;
   const fullName = (p) => `${p.brand} ${p.name}`;
 
@@ -392,7 +427,7 @@
 
   /* ---------- Produtos ---------- */
   const PAGE_SIZE = 12;
-  const productState = new Map(PRODUCTS.map((p) => [p.id, { size: (p.sizes && p.sizes[0]) || "", qty: 1 }]));
+  const productState = new Map(PRODUCTS.map((p) => [p.id, { size: sizeOptions(p)[0].size, qty: 1 }]));
   const view = { category: "todas", family: "todos", query: "", limit: PAGE_SIZE };
 
   // Busca sem acento e sem diferenciar maiúsculas.
@@ -411,9 +446,13 @@
 
   const discount = (p) => (p.oldPrice && p.price ? Math.round((1 - p.price / p.oldPrice) * 100) : 0);
 
-  function priceHtml(p) {
-    if (p.price == null) return `<p class="product__price">Consulte<small>preço confirmado no WhatsApp</small></p>`;
-    return `<p class="product__price">${p.oldPrice ? `<s class="price-old">${formatPrice(p.oldPrice)}</s>` : ""}${formatPrice(p.price)}<small>${p.soldOut ? "último preço praticado" : "valor confirmado no WhatsApp"}</small></p>`;
+  // size: opção escolhida no card (sem ela, o primeiro frasco). O preço antigo riscado vale só para ele.
+  function priceHtml(p, size) {
+    const first = sizeOptions(p)[0].size;
+    const price = size ? priceFor(p, size) : p.price;
+    if (price == null) return `<p class="product__price">Consulte<small>preço confirmado no WhatsApp</small></p>`;
+    const old = p.oldPrice && (!size || size === first) ? `<s class="price-old">${formatPrice(p.oldPrice)}</s>` : "";
+    return `<p class="product__price">${old}${formatPrice(price)}<small>${p.soldOut ? "último preço praticado" : "valor confirmado no WhatsApp"}</small></p>`;
   }
 
   function renderCategories() {
@@ -462,6 +501,7 @@
 
   function productCard(p, index) {
     const st = productState.get(p.id);
+    const opts = sizeOptions(p);
     const ask = p.soldOut
       ? `Olá, Sillage! Pode me avisar quando o ${fullName(p)} chegar? ✨`
       : `Olá, Sillage! Tenho uma dúvida sobre o ${fullName(p)} ✨`;
@@ -485,11 +525,12 @@
           <div><dt>Fundo</dt><dd>${escapeHtml(p.notes.fundo)}</dd></div>
         </dl>` : ""}
         ${p.desc ? `<p class="product__desc">${escapeHtml(p.desc)}</p>` : ""}
-        ${p.sizes && p.sizes.length > 1 ? `
+        ${opts.length > 1 ? `
         <div class="product__options" role="group" aria-label="Tamanho">
-          ${p.sizes.map((s) => `<button class="size" type="button" data-size="${escapeHtml(s)}" aria-pressed="${s === st.size}">${escapeHtml(s)}</button>`).join("")}
-        </div>` : p.sizes && p.sizes.length ? `<p class="product__size">${escapeHtml(p.sizes[0])}</p>` : ""}
-        ${priceHtml(p)}
+          ${opts.map((o) => `<button class="size" type="button" data-size="${escapeHtml(o.size)}" aria-pressed="${o.size === st.size}">${escapeHtml(o.size)}</button>`).join("")}
+        </div>` : opts[0].size ? `<p class="product__size">${escapeHtml(opts[0].size)}</p>` : ""}
+        ${hasDecant(p) ? `<p class="product__decant-note">${escapeHtml(DECANT.note)}</p>` : ""}
+        ${priceHtml(p, st.size)}
         ${p.soldOut ? `
         <a class="btn btn--ghost product__notify" href="${escapeHtml(waUrl(ask))}" target="_blank" rel="noopener">${ICONS.chat}Avise-me quando chegar</a>` : `
         <div class="product__buy">
@@ -559,6 +600,7 @@
       if (sizeBtn) {
         st.size = sizeBtn.dataset.size;
         $$("[data-size]", card).forEach((b) => b.setAttribute("aria-pressed", String(b === sizeBtn)));
+        $(".product__price", card).outerHTML = priceHtml(productById(id), st.size);
         return;
       }
       const qtyBtn = e.target.closest("[data-qty]");
@@ -569,7 +611,7 @@
       }
       if (e.target.closest("[data-add]")) {
         if (!cart.add(id, st.size, st.qty)) return;
-        toast(`<strong>${st.qty}×</strong> ${escapeHtml(fullName(productById(id)))} na sacola`);
+        toast(`<strong>${st.qty}×</strong> ${escapeHtml(fullName(productById(id)))}${st.size ? ` (${escapeHtml(st.size)})` : ""} na sacola`);
         st.qty = 1;
         $("output", card).textContent = 1;
       }
@@ -623,7 +665,7 @@
         </div>
       </div>`;
     $("[data-spot-add]", el).addEventListener("click", () => {
-      if (!cart.add(p.id, (p.sizes && p.sizes[0]) || "", 1)) return;
+      if (!cart.add(p.id, sizeOptions(p)[0].size, 1)) return;
       toast(`<strong>1×</strong> ${escapeHtml(fullName(p))} na sacola`);
     });
   }
@@ -645,7 +687,13 @@
 
   const cart = {
     // Descarta itens de versões antigas do catálogo e os que esgotaram.
-    items: store.get(CART_KEY, []).filter((it) => it && productById(it.id) && !productById(it.id).soldOut && it.qty > 0),
+    // Tamanho que não existe mais (versão antiga do site) volta para o primeiro frasco.
+    items: store.get(CART_KEY, [])
+      .filter((it) => it && productById(it.id) && !productById(it.id).soldOut && it.qty > 0)
+      .map((it) => {
+        const opts = sizeOptions(productById(it.id));
+        return opts.some((o) => o.size === it.size) ? it : { ...it, size: opts[0].size };
+      }),
 
     key: (id, size) => `${id}::${size}`,
 
@@ -693,7 +741,8 @@
 
     $("[data-cart-list]").innerHTML = cart.items.map((it, i) => {
       const p = productById(it.id);
-      const unit = p.price != null ? formatPrice(p.price * it.qty) : "Consultar preço";
+      const price = priceFor(p, it.size);
+      const unit = price != null ? formatPrice(price * it.qty) : "Consultar preço";
       return `
       <li class="cart-item" data-index="${i}">
         <div class="cart-item__thumb${photoCls(p)}" style="${bgStyle(p.bottle && p.bottle.bg)}">${productVisual(p)}</div>
@@ -769,7 +818,8 @@
     let total = 0, allPriced = true;
     cart.items.forEach((it) => {
       const p = productById(it.id);
-      if (p.price != null) total += p.price * it.qty; else allPriced = false;
+      const price = priceFor(p, it.size);
+      if (price != null) total += price * it.qty; else allPriced = false;
     });
     return { total, allPriced };
   }
@@ -971,7 +1021,8 @@
       cart.items.forEach((it) => {
         const p = productById(it.id);
         let line = `• ${it.qty}x ${fullName(p)}${it.size ? ` (${it.size})` : ""}`;
-        if (p.price != null) line += ` – ${formatPrice(p.price * it.qty)}`;
+        const price = priceFor(p, it.size);
+        if (price != null) line += ` – ${formatPrice(price * it.qty)}`;
         lines.push(line);
       });
       if (total > 0) lines.push("", `*Subtotal:* ${formatPrice(total)}${allPriced ? "" : " + itens a consultar"}`);

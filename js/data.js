@@ -21,6 +21,12 @@ const CONFIG = {
   maxInstallments: 6, // até 6x sem juros
   // Vendedor que atendeu o cliente. O primeiro item é o padrão do checkout.
   sellers: ["Sem vendedor", "Mônica", "Suelen", "Felipe"],
+  // Decantes: só perfumes (masculino/feminino) com estoque. O preço sai do frasco (ver main.js).
+  decant: {
+    categories: ["masculino", "feminino"],
+    sizes: [5, 10], // ml
+    note: "Para outras quantidades, consulte pelo WhatsApp.",
+  },
 };
 
 /* Famílias olfativas. "todos" é o filtro inicial.
@@ -52,7 +58,10 @@ const CATEGORIES = [
    - notes: topo / coração / fundo, como no catálogo. Sem notas → use desc (texto curto).
    - price: valor em reais (null = "Consulte"). oldPrice: preço antigo riscado (promoção).
    - soldOut: true mostra o selo "Esgotado" e troca o botão por "Avise-me quando chegar".
-   - sizes (opcional): ex. ["100 ml"]. O catálogo não informa, então fica de fora.
+   - sizes (opcional): ex. ["100 ml"] ou ["Kit 3 peças"]; aparece como texto no card.
+   - bottles (opcional): frascos de volumes diferentes no mesmo card, ex. [{ size: "100 ml", price: 349 }, { size: "200 ml", price: 469 }].
+   - volume (opcional): ml do frasco, para o preço do decante. Sem ele, vale o ml de sizes/bottles ou 100.
+   - decant: false tira os decantes de um perfume (ex.: kits).
    - image: foto do catálogo. Se não carregar, aparece um frasco ilustrado; bottle.bg é a cor do fundo do card. */
 const PRODUCTS = [
   {
@@ -249,7 +258,7 @@ const PRODUCTS = [
   },
   {
     id: "kit-supremacy-silver", brand: "Afnan", name: "Kit Supremacy Silver", category: "masculino",
-    families: ["frutado", "amadeirado"], price: 599,
+    families: ["frutado", "amadeirado"], price: 599, decant: false,
     notes: { topo: "Maçã, bergamota, musgo de carvalho.", coracao: "Abacaxi, patchouli, jasmim.", fundo: "Musk, âmbar cinzento, bétula." },
     desc: "EDP 100 ml + Shower Gel 100 ml + After Shave 100 ml.",
     sizes: ["Kit 3 peças"],
@@ -293,7 +302,7 @@ const PRODUCTS = [
   },
   {
     id: "kit-khamrah", brand: "Lattafa", name: "Kit Khamrah", category: "masculino",
-    families: ["oriental", "gourmand"], price: 479,
+    families: ["oriental", "gourmand"], price: 479, decant: false,
     notes: { topo: "Bergamota, canela e noz-moscada.", coracao: "Tâmaras, pralinê, tuberosa e mahonial.", fundo: "Baunilha, fava-tonka, benjoim, mirra e madeiras ambaradas." },
     desc: "Kit com 3 itens: Khamrah EDP 100 ml e mais 2 itens da linha (o conteúdo é confirmado pelo WhatsApp).",
     sizes: ["Kit 3 peças"],
@@ -307,7 +316,7 @@ const PRODUCTS = [
   },
   {
     id: "fahad", brand: "Lattafa", name: "Fahad", category: "masculino",
-    families: ["aromatico", "amadeirado"], price: 399,
+    families: ["aromatico", "amadeirado"], price: 399, volume: 80,
     notes: { topo: "Pimenta-preta, tangerina e abacaxi.", coracao: "Artemísia, lavanda e flor de laranjeira.", fundo: "Ambroxan, cedro, incenso e patchouli." },
     image: "img/products/fahad.jpg", bottle: { bg: ["#8a5a2b", "#2a1a0e"] }, // foto de loja online
   },
@@ -331,31 +340,17 @@ const PRODUCTS = [
     image: "img/products/boss-bottled-parfum.jpg", bottle: { bg: ["#d8b25a", "#2e1c08"] }, // foto de loja online
   },
   {
-    id: "azzaro-100", brand: "Azzaro", name: "Azzaro Pour Homme", category: "masculino",
+    id: "azzaro-pour-homme", brand: "Azzaro", name: "Azzaro Pour Homme", category: "masculino",
     families: ["aromatico", "amadeirado"], price: 349,
+    bottles: [{ size: "100 ml", price: 349 }, { size: "200 ml", price: 469 }],
     notes: { topo: "Anis, lavanda, manjericão, sálvia, bergamota e limão.", coracao: "Cardamomo, zimbro, patchouli, vetiver e cedro.", fundo: "Couro, fava-tonka, âmbar, almíscar e musgo de carvalho." },
-    sizes: ["100 ml"],
     image: "img/products/azzaro.jpg", bottle: { bg: ["#d8b25a", "#2e1c08"] }, // foto de loja online
   },
   {
-    id: "azzaro-200", brand: "Azzaro", name: "Azzaro Pour Homme", category: "masculino",
-    families: ["aromatico", "amadeirado"], price: 469,
-    notes: { topo: "Anis, lavanda, manjericão, sálvia, bergamota e limão.", coracao: "Cardamomo, zimbro, patchouli, vetiver e cedro.", fundo: "Couro, fava-tonka, âmbar, almíscar e musgo de carvalho." },
-    sizes: ["200 ml"],
-    image: "img/products/azzaro.jpg", bottle: { bg: ["#d8b25a", "#2e1c08"] }, // foto de loja online
-  },
-  {
-    id: "golden-secret-100", brand: "Antonio Banderas", name: "The Golden Secret", category: "masculino",
+    id: "golden-secret", brand: "Antonio Banderas", name: "The Golden Secret", category: "masculino",
     families: ["aromatico", "amadeirado"], price: 229,
+    bottles: [{ size: "100 ml", price: 229 }, { size: "200 ml", price: 299 }],
     notes: { topo: "Menta, maçã verde e notas verdes.", coracao: "Noz-moscada, cominho e pimenta.", fundo: "Cedro, incenso, couro e almíscar." },
-    sizes: ["100 ml"],
-    image: "img/products/golden-secret.jpg", bottle: { bg: ["#d8b25a", "#2e1c08"] }, // foto de loja online
-  },
-  {
-    id: "golden-secret-200", brand: "Antonio Banderas", name: "The Golden Secret", category: "masculino",
-    families: ["aromatico", "amadeirado"], price: 299,
-    notes: { topo: "Menta, maçã verde e notas verdes.", coracao: "Noz-moscada, cominho e pimenta.", fundo: "Cedro, incenso, couro e almíscar." },
-    sizes: ["200 ml"],
     image: "img/products/golden-secret.jpg", bottle: { bg: ["#d8b25a", "#2e1c08"] }, // foto de loja online
   },
   {
