@@ -636,6 +636,13 @@ const PRODUCTS = [
     image: "img/products/la-vie-est-belle.jpg", bottle: { bg: ["#d8b25a", "#2e1c08"] }, // foto de loja online
   },
   {
+    id: "philos-pura", brand: "Maison Alhambra", name: "Philos Pura", category: "feminino",
+    families: ["citrico", "frutado"], price: 199,
+    notes: { topo: "Laranja, bergamota e limão.", coracao: "Frutas mediterrâneas.", fundo: "Almíscar branco, âmbar e baunilha." },
+    sizes: ["100 ml"],
+    image: "img/products/philos-pura.jpg", bottle: { bg: ["#e8a3b3", "#5b2433"] }, // foto de loja online
+  },
+  {
     id: "creme-precieux", brand: "Armaf", name: "Body Cream Club de Nuit Précieux I", category: "hidratantes",
     families: ["oriental", "gourmand"], price: 169,
     notes: { topo: "Abacaxi, limão, bergamota, pera e pimentas.", coracao: "Musgo, madeiras brancas, jasmim e anis.", fundo: "Ambroxan, cedro, patchouli, âmbar e baunilha." },
