@@ -510,10 +510,17 @@ const PRODUCTS = [
     image: "img/products/victoria.jpg", bottle: { bg: ["#e9c79a", "#5a3a1c"] }, // pág. 25
   },
   {
-    id: "fakhar-rose-2", brand: "Lattafa", name: "Fakhar Rose (frasco rosé)", category: "feminino",
+    id: "fakhar-rose-2", brand: "Lattafa", name: "Fakhar Gold", category: "feminino",
     families: ["floral"], price: 319,
     notes: { topo: "Frutas, lírio, romã e aldeídos.", coracao: "Tuberosa, jasmim, gardênia, ylang-ylang, rosa, madressilva e peônia.", fundo: "Baunilha, almíscar branco, sândalo e ambroxan." },
     image: "img/products/fakhar-rose-2.jpg", bottle: { bg: ["#e8a3b3", "#5b2433"] }, // pág. 26
+  },
+  {
+    id: "fakhar-black", brand: "Lattafa", name: "Fakhar Black", category: "masculino",
+    families: ["aromatico", "oriental"], price: 319,
+    notes: { topo: "Maçã, bergamota e gengibre.", coracao: "Lavanda, sálvia, gerânio e bagas de zimbro.", fundo: "Fava-tonka, amberwood, cedro e vetiver." },
+    sizes: ["100 ml"],
+    image: "img/products/fakhar-black.jpg", bottle: { bg: ["#8fa88a", "#1f2e22"] }, // foto de loja online
   },
   {
     id: "yara-tous", brand: "Lattafa", name: "Yara Tous", category: "feminino",
