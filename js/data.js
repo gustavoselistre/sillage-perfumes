@@ -517,7 +517,7 @@ const PRODUCTS = [
   },
   {
     id: "fakhar-black", brand: "Lattafa", name: "Fakhar Black", category: "masculino",
-    families: ["aromatico", "oriental"], price: 319,
+    families: ["aromatico", "oriental"], price: 369,
     notes: { topo: "Maçã, bergamota e gengibre.", coracao: "Lavanda, sálvia, gerânio e bagas de zimbro.", fundo: "Fava-tonka, amberwood, cedro e vetiver." },
     sizes: ["100 ml"],
     image: "img/products/fakhar-black.jpg", bottle: { bg: ["#8fa88a", "#1f2e22"] }, // foto de loja online
