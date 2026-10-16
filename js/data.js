@@ -682,7 +682,7 @@ const PRODUCTS = [
   },
   {
     id: "vs-body-splash", brand: "Victoria's Secret", name: "Body Splash", category: "body-splash",
-    families: [], price: 139,
+    families: [], price: 149,
     desc: "Bruma perfumada para o corpo. Consulte as fragrâncias disponíveis.",
     image: "img/products/vs-body-splash.jpg", bottle: { bg: ["#d8b25a", "#2e1c08"] }, // pág. 36
   },
@@ -694,7 +694,7 @@ const PRODUCTS = [
   },
   {
     id: "vs-kit", brand: "Victoria's Secret", name: "Body Splash + Hidratante", category: "body-splash",
-    families: [], price: 229,
+    families: [], price: 249,
     desc: "Kit com body splash e hidratante da mesma fragrância.",
     image: "img/products/vs-kit.jpg", bottle: { bg: ["#d8b25a", "#2e1c08"] }, // pág. 36
   },
