@@ -1,0 +1,14 @@
+# Configuração do Cloudflare Pages (site estático + functions/ + bindings).
+# A senha do painel (ADMIN_PASSWORD) é secret: defina no dashboard, nunca aqui.
+name = "sillage-perfumes"
+pages_build_output_dir = "."
+compatibility_date = "2026-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "sillage"
+database_id = "a31d8ae7-9f54-4d57-be5d-0d6c6c526525"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "sillage-media"

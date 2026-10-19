@@ -1,6 +1,21 @@
-/* Sillage — comportamento da página (sem dependências). Conteúdo vem de js/data.js. */
-(() => {
+/* Sillage — comportamento da página (sem dependências). Conteúdo vem de js/data.js;
+   os produtos vêm do painel (/api/products), com o PRODUCTS do data.js como reserva. */
+(async (FALLBACK_PRODUCTS) => {
   "use strict";
+
+  // Se a API não responder (site aberto como arquivo, sem rede, API fora), usa a cópia do data.js.
+  async function loadProducts() {
+    try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 4000);
+      const res = await fetch("/api/products", { signal: ctrl.signal });
+      clearTimeout(timer);
+      const list = res.ok ? await res.json() : null;
+      if (Array.isArray(list) && list.length) return list;
+    } catch (e) { /* cai na reserva */ }
+    return FALLBACK_PRODUCTS;
+  }
+  const PRODUCTS = await loadProducts();
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -1132,4 +1147,4 @@
   renderCart();
   initDrawer();
   initReveal();
-})();
+})(PRODUCTS);

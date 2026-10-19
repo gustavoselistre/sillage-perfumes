@@ -8,3 +8,8 @@
 # Imagens mudam pouco: cache de 7 dias no navegador.
 /img/*
   Cache-Control: public, max-age=604800
+
+# Painel da loja: fora do Google e sem cache (o código do painel muda junto com o site).
+/admin/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store
