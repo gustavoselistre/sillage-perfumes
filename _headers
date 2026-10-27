@@ -5,6 +5,12 @@
   X-Frame-Options: SAMEORIGIN
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
+# Prévias e o endereço *.pages.dev não entram no Google (só sillageperfumaria.com.br).
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
+
 # Imagens mudam pouco: cache de 7 dias no navegador.
 /img/*
   Cache-Control: public, max-age=604800

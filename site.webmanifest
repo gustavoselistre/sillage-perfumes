@@ -1,0 +1,13 @@
+{
+  "name": "Sillage Perfumes Importados",
+  "short_name": "Sillage",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#0b0b0d",
+  "theme_color": "#0b0b0d",
+  "icons": [
+    { "src": "/img/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/img/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

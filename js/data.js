@@ -2,6 +2,8 @@
    main.js só renderiza. Para trocar produtos, fragrâncias ou contatos, edite este arquivo. */
 
 const CONFIG = {
+  // Endereço oficial do site (sem barra no fim). Base do canonical, do sitemap e das páginas geradas.
+  siteUrl: "https://sillageperfumaria.com.br",
   // WhatsApp com DDI + DDD, só dígitos.
   whatsapp: "5551996689650",
   whatsappDisplay: "(51) 99668-9650",
@@ -759,3 +761,34 @@ const SPOTLIGHT = {
 
 /* Faixa animada logo abaixo do carrossel. */
 const MARQUEE = ["Lattafa", "Armaf", "Afnan", "French Avenue", "Maison Alhambra", "Al Wataniah", "Rasasi", "Rayhaan", "Orientica", "Paris Corner"];
+
+/* Textos das páginas geradas para o Google (scripts/build.mjs): categorias, famílias, marcas e decantes.
+   Cada texto vira a introdução da página. Marca sem texto ganha uma introdução automática.
+   Produto: o campo opcional seoText (em PRODUCTS) entra na página do perfume. */
+const SEO_TEXTS = {
+  categorias: {
+    masculino: "Perfumes masculinos árabes originais, do fresco e aromático para o dia a dia ao amadeirado intenso para a noite. São fragrâncias conhecidas pela fixação longa e pela projeção marcante, com preço bem abaixo dos importados de grife. Escolha pelo estilo, compare as notas de topo, coração e fundo e, se quiser experimentar antes, leve um decante de 5 ou 10 ml.",
+    feminino: "Perfumes femininos árabes originais: florais delicados, gourmands de baunilha e caramelo, frutados alegres e orientais marcantes. Fragrâncias com ótima fixação e rastro, como Yara, Eclaire e a linha Fakhar, por um preço acessível. Compare as notas e peça em frasco ou em decante de 5 ou 10 ml para testar na pele.",
+    hidratantes: "Hidratantes e cremes corporais perfumados para usar sozinhos ou em camadas com o perfume de mesma linha. A pele hidratada segura melhor a fragrância e aumenta a fixação ao longo do dia.",
+    "body-splash": "Body splash e kits para quem quer um perfume leve para o dia a dia, depois do banho ou para reaplicar ao longo do dia.",
+    infantil: "Perfumes infantis suaves, com notas delicadas e próprias para crianças.",
+  },
+  familias: {
+    amadeirado: "Perfumes amadeirados trazem oud, sândalo, cedro e vetiver: são elegantes, secos ou cremosos, e ficam muito tempo na pele. É a família clássica da perfumaria árabe e funciona bem à noite e nos dias frios.",
+    citrico: "Perfumes cítricos abrem com bergamota, limão, laranja e toranja. São frescos, limpos e fáceis de usar, ideais para o calor, o trabalho e o dia a dia.",
+    floral: "Perfumes florais trazem rosa, jasmim, flor de laranjeira e orquídea. Vão do delicado ao opulento e, na perfumaria árabe, costumam vir com fundo de baunilha, almíscar ou âmbar, o que aumenta a fixação.",
+    oriental: "Perfumes orientais (ou ambarados) misturam especiarias, açafrão, âmbar, resinas e baunilha. São quentes, intensos e marcantes, perfeitos para a noite e para ocasiões especiais.",
+    gourmand: "Perfumes gourmand têm notas que lembram doces: baunilha, caramelo, praliné, café, cacau e mel. São aconchegantes, sensuais e muito queridos nos perfumes árabes, como Khamrah e Eclaire.",
+    frutado: "Perfumes frutados trazem pêssego, manga, maçã, abacaxi e frutas vermelhas. São alegres, solares e chamam atenção, ótimos para o dia e para quem gosta de um rastro jovem.",
+    aromatico: "Perfumes aromáticos usam lavanda, menta, sálvia e ervas frescas. É a base da perfumaria masculina clássica: limpa, elegante e versátil, do escritório ao fim de semana.",
+  },
+  marcas: {
+    Lattafa: "A Lattafa é uma das casas de perfumaria árabe mais conhecidas do mundo, com sede nos Emirados Árabes Unidos. É famosa por fragrâncias de ótima fixação e preço acessível, como Khamrah, Asad, Yara e a linha Fakhar.",
+    Armaf: "A Armaf é uma marca dos Emirados Árabes Unidos conhecida pela linha Club de Nuit, com perfumes intensos, de boa projeção e longa duração.",
+    Afnan: "A Afnan é uma perfumaria dos Emirados Árabes Unidos com fragrâncias marcantes e sofisticadas, como 9PM e a linha Supremacy.",
+    "French Avenue": "A French Avenue é uma marca árabe com fragrâncias modernas e inspiradas na alta perfumaria francesa, com ótimo custo-benefício.",
+    "Al Wataniah": "A Al Wataniah é uma perfumaria árabe com fragrâncias doces, florais e orientais, conhecida pelo ótimo custo-benefício.",
+    "Maison Alhambra": "A Maison Alhambra é uma marca árabe que traz releituras de perfumes famosos por um preço acessível, com boa fixação.",
+  },
+  decantes: "Decante é uma pequena quantidade do perfume original, transferida do frasco para um vidrinho com borrifador. É a forma mais econômica de experimentar um perfume na pele antes de comprar o frasco, levar na bolsa ou na viagem e variar de fragrância sem gastar muito. Na Sillage, os perfumes masculinos e femininos disponíveis têm decantes de 5 ml e 10 ml, e o preço de cada um aparece no card do perfume.",
+};
