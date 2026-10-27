@@ -26,6 +26,7 @@ Para o dono da loja: entrar com a senha e cadastrar, editar, marcar como esgotad
 - **Fotos novas:** R2 `sillage-media`. As fotos antigas continuam em `img/products/`.
 - **Senha:** secret `ADMIN_PASSWORD` no projeto do Pages (Settings → Variables and Secrets). Trocar a senha desconecta todas as sessões. Depois de 8 erros seguidos, o IP fica bloqueado por 15 minutos.
 - **Backup do banco:** `npx wrangler d1 export sillage --remote --output=backup.sql`.
+- **Uso e limites (plano grátis):** visitas em Workers & Pages → sillage-perfumes → Metrics (Web Analytics); requisições das functions na mesma aba (limite de 100 mil por dia); espaço e operações do R2 em R2 → Overview (10 GB, 1 milhão de gravações e 10 milhões de leituras por mês).
 - Bindings (`DB`, `MEDIA`) declarados em `wrangler.toml`.
 
 ## Deploy
