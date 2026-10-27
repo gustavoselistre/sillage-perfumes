@@ -465,8 +465,10 @@
   }
 
   /* ---------- Perguntas frequentes ---------- */
+  // A home já sai do build com as perguntas: só monta se vier vazia (não fecha a que o cliente abriu).
   function renderFaq() {
-    $("[data-faq]").innerHTML = faqHtml(FAQ);
+    const el = $("[data-faq]");
+    if (!el.children.length) el.innerHTML = faqHtml(FAQ);
   }
 
   /* ---------- Instagram ---------- */
