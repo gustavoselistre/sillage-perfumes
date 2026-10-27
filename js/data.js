@@ -52,7 +52,9 @@ const CATEGORIES = [
   { id: "infantil", label: "Infantil" },
 ];
 
-/* Produtos — tirados do catálogo "SIllage Catálogo editado.pdf" (o comentário indica a página).
+/* Produtos — RESERVA. A lista de verdade fica no banco e é editada pelo painel (/admin).
+   Esta cópia só aparece se a API falhar (ou com o site aberto como arquivo); mudar aqui não muda o site.
+   Origem: catálogo "SIllage Catálogo editado.pdf" (o comentário indica a página). Formato, o mesmo do banco:
    - category: id de CATEGORIES.
    - families: famílias olfativas deduzidas das notas (o filtro usa families.includes).
    - notes: topo / coração / fundo, como no catálogo. Sem notas → use desc (texto curto).
