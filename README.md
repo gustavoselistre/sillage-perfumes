@@ -19,6 +19,8 @@ npx wrangler pages dev .
 No primeiro login em `/admin`, o banco vazio recebe sozinho os produtos de `js/data.js`.
 
 ## Painel admin (`/admin`)
+Endereço: **https://sillageperfumaria.com.br/admin** (nas prévias de PR, `<url-da-prévia>/admin`).
+
 Para o dono da loja: entrar com a senha e cadastrar, editar, marcar como esgotado, reordenar ou excluir produtos, e trocar fotos. A mudança aparece no site no próximo carregamento da página.
 
 - **Back-end:** Cloudflare Pages Functions em `functions/` (API em `/api/*`, fotos em `/media/*`).
