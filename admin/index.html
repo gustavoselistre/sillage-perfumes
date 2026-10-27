@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Painel · Sillage</title>
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <!-- ============ LOGIN ============ -->
+  <main class="login" data-view="login" hidden>
+    <form class="login__box" data-login-form>
+      <p class="brand">Sillage <small>Painel da loja</small></p>
+      <label class="field">
+        <span>Senha</span>
+        <input type="password" name="password" autocomplete="current-password" required autofocus>
+      </label>
+      <p class="form-msg" data-login-msg role="alert"></p>
+      <button class="btn btn--gold" type="submit">Entrar</button>
+    </form>
+  </main>
+
+  <!-- ============ LISTA ============ -->
+  <div data-view="list" hidden>
+    <header class="topbar">
+      <p class="brand">Sillage <small>Painel</small></p>
+      <nav class="topbar__actions">
+        <a class="btn btn--ghost" href="/" target="_blank" rel="noopener">Ver site</a>
+        <button class="btn btn--ghost" type="button" data-logout>Sair</button>
+      </nav>
+    </header>
+    <main class="container">
+      <div class="toolbar">
+        <input class="toolbar__search" type="search" placeholder="Buscar por nome ou marca" data-search aria-label="Buscar produto">
+        <select data-filter-category aria-label="Filtrar por categoria"></select>
+        <select data-filter-stock aria-label="Filtrar por estoque">
+          <option value="">Todos</option>
+          <option value="disponivel">Disponíveis</option>
+          <option value="esgotado">Esgotados</option>
+        </select>
+        <button class="btn btn--gold" type="button" data-new>+ Novo produto</button>
+      </div>
+      <p class="hint" data-count></p>
+      <ul class="list" data-list></ul>
+    </main>
+  </div>
+
+  <!-- ============ FORMULÁRIO ============ -->
+  <div data-view="form" hidden>
+    <header class="topbar">
+      <button class="btn btn--ghost" type="button" data-back>← Voltar</button>
+      <p class="topbar__title" data-form-title>Produto</p>
+    </header>
+    <main class="container container--narrow">
+      <form class="form" data-product-form novalidate>
+        <section class="card">
+          <h2>Foto</h2>
+          <div class="photo">
+            <div class="photo__preview" data-photo-preview><span>Sem foto</span></div>
+            <div class="photo__actions">
+              <label class="btn btn--ghost">
+                Escolher foto
+                <input type="file" accept="image/jpeg,image/png,image/webp" data-photo-input hidden>
+              </label>
+              <button class="btn btn--link" type="button" data-photo-remove hidden>Remover foto</button>
+              <p class="hint">Frasco inteiro, de preferência com fundo branco ou claro.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Produto</h2>
+          <label class="field"><span>Marca *</span><input name="brand" required maxlength="80" placeholder="Ex.: Lattafa"></label>
+          <label class="field"><span>Nome *</span><input name="name" required maxlength="120" placeholder="Ex.: Khamrah"></label>
+          <label class="field"><span>Categoria *</span><select name="category" required data-category-select></select></label>
+          <fieldset class="field">
+            <legend>Famílias olfativas</legend>
+            <div class="chips" data-families></div>
+          </fieldset>
+        </section>
+
+        <section class="card">
+          <h2>Preço e estoque</h2>
+          <div class="sizes" data-sizes></div>
+          <button class="btn btn--link" type="button" data-add-size>+ Outro tamanho</button>
+          <p class="hint">Deixe o preço vazio para mostrar "Consulte". Com mais de um tamanho, o primeiro aparece primeiro no card.</p>
+          <label class="field">
+            <span>Preço antigo (promoção)</span>
+            <input name="oldPrice" inputmode="decimal" placeholder="Ex.: 429,00">
+            <small>Aparece riscado ao lado do preço. Deixe vazio se não estiver em promoção.</small>
+          </label>
+          <label class="switch"><input type="checkbox" name="soldOut"><span>Esgotado</span></label>
+          <label class="switch"><input type="checkbox" name="noDecant"><span>Não vender decante (ex.: kits)</span></label>
+        </section>
+
+        <section class="card">
+          <h2>Descrição</h2>
+          <label class="field"><span>Notas de topo</span><textarea name="topo" rows="2" placeholder="Ex.: Canela, noz-moscada e bergamota."></textarea></label>
+          <label class="field"><span>Notas de coração</span><textarea name="coracao" rows="2"></textarea></label>
+          <label class="field"><span>Notas de fundo</span><textarea name="fundo" rows="2"></textarea></label>
+          <label class="field">
+            <span>Texto curto (sem notas)</span>
+            <textarea name="desc" rows="2" maxlength="600"></textarea>
+            <small>Use para hidratantes, kits e produtos sem pirâmide olfativa.</small>
+          </label>
+        </section>
+
+        <p class="form-msg" data-form-msg role="alert"></p>
+        <div class="form__actions">
+          <button class="btn btn--danger" type="button" data-delete hidden>Excluir produto</button>
+          <button class="btn btn--gold" type="submit" data-save>Salvar</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <div class="toast" data-toast role="status" aria-live="polite"></div>
+
+  <script src="/js/data.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -7,3 +7,5 @@ deploy_key
 .ccpraxis-local-data/
 .claude/settings.local.json
 .DS_Store
+.dev.vars
+.wrangler/

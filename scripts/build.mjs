@@ -1,10 +1,13 @@
 /* Sillage — gera o site estático em dist/ para o Google (sem dependências: só Node 18+).
-   Lê o catálogo de js/data.js e os modelos de HTML de js/catalog.js e cria:
+   Busca os produtos do painel em <siteUrl>/api/products (se falhar, usa a reserva de js/data.js),
+   usa os modelos de HTML de js/catalog.js e cria:
    - /perfumes/<id>/            uma página por produto (título, notas, preços, JSON-LD Product)
    - /categorias/<id>/, /familias/<id>/, /marcas/<marca>/, /decantes/   páginas de listagem
    - /sitemap.xml e /404.html
    e pré-renderiza a vitrine e os links do rodapé na home.
-   Uso: node scripts/build.mjs   (Cloudflare Pages: build command igual, output directory "dist"). */
+   Uso: node scripts/build.mjs   (Cloudflare Pages: build command igual, output directory "dist").
+   O painel (/admin) chama o deploy hook a cada alteração, e o build roda de novo (functions/_lib/rebuild.js).
+   SILLAGE_API=<url> troca o endereço da API (ex.: http://localhost:8788/api/products com o wrangler). */
 import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
@@ -17,9 +20,29 @@ const read = (f) => fs.readFileSync(path.join(ROOT, f), "utf8");
 
 /* ---------- Catálogo ---------- */
 // data.js e catalog.js declaram const globais; rodando os dois num só script, a última expressão devolve tudo.
-const { CONFIG, PRODUCTS, FAMILIES, CATEGORIES, SEO_TEXTS, SHOP } = vm.runInNewContext(
-  `${read("js/data.js")}\n${read("js/catalog.js")}\n;({ CONFIG, PRODUCTS, FAMILIES, CATEGORIES, SEO_TEXTS, SHOP })`
+const { CONFIG, PRODUCTS: FALLBACK_PRODUCTS, FAMILIES, CATEGORIES, SEO_TEXTS, createShop } = vm.runInNewContext(
+  `${read("js/data.js")}\n${read("js/catalog.js")}\n;({ CONFIG, PRODUCTS, FAMILIES, CATEGORIES, SEO_TEXTS, createShop })`
 );
+
+// Produtos do painel (a mesma lista que a vitrine carrega). Sem resposta válida, usa a reserva do data.js.
+async function loadProducts() {
+  const url = process.env.SILLAGE_API || `${CONFIG.siteUrl.replace(/\/$/, "")}/api/products`;
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const list = await res.json();
+    if (!Array.isArray(list) || !list.length || !list.every((p) => p && p.id && p.name && p.brand && Array.isArray(p.families))) {
+      throw new Error("resposta sem produtos válidos");
+    }
+    console.log(`Produtos do painel: ${list.length} (${url})`);
+    return list;
+  } catch (e) {
+    console.warn(`AVISO: não deu para ler ${url} (${e.message}). Usando a reserva de js/data.js (${FALLBACK_PRODUCTS.length} produtos).`);
+    return FALLBACK_PRODUCTS;
+  }
+}
+const PRODUCTS = await loadProducts();
+const SHOP = createShop(PRODUCTS);
 const {
   escapeHtml: esc, formatPrice, sizeOptions, familyLabel, fullName, categoryLabel, slug,
   productUrl, brandUrl, familyUrl, categoryUrl, productVisual, photoCls, bgStyle, purchaseHtml, productCard,
@@ -410,7 +433,7 @@ ${[["./", null], ...[...pages.keys()].map((rel) => [rel, PRODUCTS.find((p) => pr
 /* ---------- Grava dist/ ---------- */
 fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST);
-["css", "js", "img"].forEach((dir) => fs.cpSync(path.join(ROOT, dir), path.join(DIST, dir), { recursive: true }));
+["css", "js", "img", "admin"].forEach((dir) => fs.cpSync(path.join(ROOT, dir), path.join(DIST, dir), { recursive: true }));
 ["_headers", "robots.txt", "site.webmanifest"].forEach((f) => fs.copyFileSync(path.join(ROOT, f), path.join(DIST, f)));
 fs.rmSync(path.join(DIST, "img", "README.md"), { force: true });
 
@@ -434,7 +457,8 @@ const files = new Set();
   });
 })(DIST);
 const titles = new Map();
-[...files].filter((f) => f.endsWith(".html")).forEach((f) => {
+// O painel (admin/) não é página para o Google: fica fora da conferência.
+[...files].filter((f) => f.endsWith(".html") && !f.startsWith("admin/")).forEach((f) => {
   const html = fs.readFileSync(path.join(DIST, f), "utf8");
   const h1 = (html.match(/<h1[\s>]/g) || []).length;
   if (h1 !== 1) problems.push(`${f}: ${h1} <h1>`);
@@ -449,6 +473,7 @@ const titles = new Map();
   // Links internos: as páginas internas usam <base href="/">; a home fica na raiz. Os dois resolvem a partir de "/".
   [...html.matchAll(/(?:href|src)="([^"#:?]+)(?:[#?][^"]*)?"/g)].forEach(([, link]) => {
     if (/^(https?:|mailto:|tel:|\/\/)/.test(link)) return;
+    if (/^\/(api|media)\//.test(link)) return; // servidos pelas functions, não pelo dist/
     let target = link.replace(/^\.?\//, "");
     if (target === "" || target.endsWith("/")) target += "index.html";
     if (!files.has(target)) problems.push(`${f}: link quebrado → ${link}`);

@@ -1,6 +1,7 @@
 /* Sillage — funções e modelos de HTML usados pelo site (main.js) e pelo gerador de páginas
-   (scripts/build.mjs). Só depende de js/data.js; não mexe no DOM. */
-const SHOP = (() => {
+   (scripts/build.mjs). Não mexe no DOM. Recebe a lista de produtos (a do painel, via /api/products,
+   ou a reserva do js/data.js); CONFIG, CATEGORIES e FAMILIES vêm do js/data.js. */
+function createShop(PRODUCTS) {
   "use strict";
 
   const escapeHtml = (s) =>
@@ -271,4 +272,4 @@ const SHOP = (() => {
     familyLabel, fullName, categoryLabel, slug, productUrl, brandUrl, familyUrl, categoryUrl,
     ICONS, familyIcon, bottleSvg, productVisual, photoCls, bgStyle, discount, priceHtml, purchaseHtml, productCard,
   };
-})();
+}

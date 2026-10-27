@@ -1,8 +1,23 @@
 /* Sillage — comportamento da página (sem dependências). Conteúdo vem de js/data.js;
-   funções e modelos de HTML compartilhados com o gerador de páginas ficam em js/catalog.js.
+   os produtos vêm do painel (/api/products), com o PRODUCTS do data.js como reserva. Funções e modelos
+   de HTML compartilhados com o gerador de páginas (scripts/build.mjs) ficam em js/catalog.js.
    Roda na home e nas páginas geradas (produto, marca, família…): cada seção só é montada se existir. */
-(() => {
+(async (FALLBACK_PRODUCTS) => {
   "use strict";
+
+  // Se a API não responder (site aberto como arquivo, sem rede, API fora), usa a cópia do data.js.
+  async function loadProducts() {
+    try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 4000);
+      const res = await fetch("/api/products", { signal: ctrl.signal });
+      clearTimeout(timer);
+      const list = res.ok ? await res.json() : null;
+      if (Array.isArray(list) && list.length) return list;
+    } catch (e) { /* cai na reserva */ }
+    return FALLBACK_PRODUCTS;
+  }
+  const PRODUCTS = await loadProducts();
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -11,7 +26,7 @@
   const {
     escapeHtml, waUrl, instaUrl, formatPrice, productById, sizeOptions, priceFor,
     fullName, ICONS, familyIcon, productVisual, photoCls, bgStyle, priceHtml, productCard,
-  } = SHOP;
+  } = createShop(PRODUCTS);
 
   // Abre o WhatsApp em nova aba. window.open com "noopener" sempre retorna null,
   // então o opener é zerado à mão; se o pop-up for bloqueado, navega na própria aba.
@@ -899,4 +914,4 @@
   renderCart();
   initDrawer();
   initReveal();
-})();
+})(PRODUCTS);
