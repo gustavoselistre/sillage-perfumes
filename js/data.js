@@ -762,6 +762,33 @@ const SPOTLIGHT = {
 /* Faixa animada logo abaixo do carrossel. */
 const MARQUEE = ["Lattafa", "Armaf", "Afnan", "French Avenue", "Maison Alhambra", "Al Wataniah", "Rasasi", "Rayhaan", "Orientica", "Paris Corner"];
 
+/* Perguntas frequentes (seção "Dúvidas" da home). Também viram o JSON-LD FAQPage da home (scripts/build.mjs).
+   Texto simples: sem HTML. */
+const FAQ = [
+  { q: "Os perfumes são originais?",
+    a: "Sim, 100% originais e importados com procedência, das marcas Lattafa, Armaf, Afnan, French Avenue, Rasasi e outras. O preço é menor porque a perfumaria árabe custa menos que as grifes europeias, não por ser cópia." },
+  { q: "Por que os perfumes árabes custam menos que os de grife?",
+    a: "As casas árabes produzem em grande escala e investem menos em publicidade que as grifes europeias. Por isso entregam fragrâncias de ótima qualidade, fixação e projeção por um preço bem mais acessível." },
+  { q: "O que é um decante?",
+    a: "É uma pequena quantidade do perfume original, transferida do frasco para um vidrinho com borrifador. Os perfumes masculinos e femininos disponíveis têm decantes de 5 ml e 10 ml, e o preço aparece no card de cada perfume. Para outras quantidades, consulte pelo WhatsApp." },
+  { q: "Não conheço o cheiro. Como saber se vou gostar?",
+    a: "Leve um decante: você testa o perfume na pele por alguns dias antes de comprar o frasco. Se preferir, chame no WhatsApp, conte o estilo que você gosta e indicamos as opções ideais." },
+  { q: "Perfume árabe não é forte demais?",
+    a: "Depende da família. Amadeirados e orientais, com oud, açafrão e âmbar, são mais intensos. Mas há cítricos e aromáticos leves para o dia a dia, florais delicados e gourmands doces. Use o filtro por família olfativa para encontrar o seu estilo." },
+  { q: "Os perfumes árabes fixam bem?",
+    a: "Fixação longa e projeção marcante são o ponto forte da perfumaria árabe. Para durar ainda mais, aplique na pele hidratada: os hidratantes da mesma linha ajudam a segurar a fragrância." },
+  { q: "Como faço o pedido?",
+    a: "Escolha os perfumes, adicione à sacola e informe seu nome, se prefere entrega ou retirada e a forma de pagamento. O pedido é enviado pelo WhatsApp, onde confirmamos preço e disponibilidade antes de você pagar." },
+  { q: "Quais são as formas de pagamento?",
+    a: "Pix, cartão de débito, transferência e cartão de crédito em até 6x sem juros. Os valores são confirmados no atendimento." },
+  { q: "Como funciona a entrega? Posso retirar?",
+    a: "A entrega é combinada pelo WhatsApp depois do pedido. Se preferir, retire com a gente na R. Estácio dos Santos, 1144, Parque dos Eucaliptos, em Gravataí/RS." },
+  { q: "O perfume que eu quero está esgotado. E agora?",
+    a: "Toque em “Avise-me quando chegar” no card do perfume: a mensagem vai para o nosso WhatsApp e avisamos quando ele voltar. Aproveite para pedir uma indicação parecida." },
+  { q: "Vocês ajudam a escolher um presente?",
+    a: "Sim! Conte no WhatsApp para quem é, o estilo da pessoa e se ela prefere algo doce, fresco ou marcante, e indicamos as melhores opções. Os kits e os decantes também são ótimos para presentear." },
+];
+
 /* Textos das páginas geradas para o Google (scripts/build.mjs): categorias, famílias, marcas e decantes.
    Cada texto vira a introdução da página. Marca sem texto ganha uma introdução automática.
    Produto: o campo opcional seoText (em PRODUCTS) entra na página do perfume. */

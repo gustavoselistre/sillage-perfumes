@@ -24,7 +24,7 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const {
-    escapeHtml, waUrl, instaUrl, formatPrice, productById, sizeOptions, priceFor,
+    faqHtml, escapeHtml, waUrl, instaUrl, formatPrice, productById, sizeOptions, priceFor,
     fullName, ICONS, familyIcon, productVisual, photoCls, bgStyle, priceHtml, productCard,
   } = createShop(PRODUCTS);
 
@@ -462,6 +462,11 @@
       if (!cart.add(p.id, sizeOptions(p)[0].size, 1)) return;
       toast(`<strong>1×</strong> ${escapeHtml(fullName(p))} na sacola`);
     });
+  }
+
+  /* ---------- Perguntas frequentes ---------- */
+  function renderFaq() {
+    $("[data-faq]").innerHTML = faqHtml(FAQ);
   }
 
   /* ---------- Instagram ---------- */
@@ -910,6 +915,7 @@
   initProductActions();
   if (has("[data-spotlight]")) renderSpotlight();
   if (has("[data-families]")) renderFamilies();
+  if (has("[data-faq]")) renderFaq();
   if (has("[data-insta]")) renderInstagram();
   renderCart();
   initDrawer();

@@ -267,8 +267,16 @@ function createShop(PRODUCTS) {
     </article>`;
   }
 
+  /* ---------- Perguntas frequentes (FAQ do data.js) ----------
+     <details> abre e fecha sem JavaScript; a home já sai do build com a lista pronta. */
+  const faqHtml = (items) => items.map((f) => `
+          <details class="faq__item">
+            <summary class="faq__q">${escapeHtml(f.q)}</summary>
+            <p class="faq__a">${escapeHtml(f.a)}</p>
+          </details>`).join("");
+
   return {
-    escapeHtml, waUrl, instaUrl, formatPrice, productById, DECANT, hasDecant, sizeOptions, priceFor,
+    faqHtml, escapeHtml, waUrl, instaUrl, formatPrice, productById, DECANT, hasDecant, sizeOptions, priceFor,
     familyLabel, fullName, categoryLabel, slug, productUrl, brandUrl, familyUrl, categoryUrl,
     ICONS, familyIcon, bottleSvg, productVisual, photoCls, bgStyle, discount, priceHtml, purchaseHtml, productCard,
   };
