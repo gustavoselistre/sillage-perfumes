@@ -4,8 +4,8 @@ Site de página única da **Sillage Perfumes Importados**: catálogo de perfumar
 
 - HTML, CSS e JS puros, sem dependências.
 - **Produtos** (preços, promoções, esgotados, fotos): editados pelo dono no painel **`/admin`**, guardados no banco D1. O `PRODUCTS` de `js/data.js` é só uma cópia de reserva.
-- **Resto do conteúdo** (slides, destaque, categorias, famílias, contatos e textos das páginas para o Google em `SEO_TEXTS`): `js/data.js`. O `js/main.js` só renderiza; os modelos de HTML compartilhados com o build ficam em `js/catalog.js`.
-- **SEO:** `scripts/build.mjs` busca os produtos em `/api/products` (reserva: `js/data.js`) e gera em `dist/` uma página para cada perfume (`/perfumes/<id>/`), páginas de categoria, família olfativa, marca e decantes, o `sitemap.xml` e o `404.html`, e coloca a vitrine pronta no HTML da home. Domínio oficial: `CONFIG.siteUrl`. Quando o dono salva algo no painel, o site é remontado sozinho (veja "Deploy").
+- **Resto do conteúdo** (slides, destaque, categorias, famílias, contatos, perguntas frequentes em `FAQ` e textos das páginas para o Google em `SEO_TEXTS`): `js/data.js`. O `js/main.js` só renderiza; os modelos de HTML compartilhados com o build ficam em `js/catalog.js`.
+- **SEO:** `scripts/build.mjs` busca os produtos em `/api/products` (reserva: `js/data.js`) e gera em `dist/` uma página para cada perfume (`/perfumes/<id>/`), páginas de categoria, família olfativa, marca e decantes, o `sitemap.xml` e o `404.html`, e coloca a vitrine e as perguntas frequentes (com JSON-LD `FAQPage`) prontas no HTML da home. Domínio oficial: `CONFIG.siteUrl`. Quando o dono salva algo no painel, o site é remontado sozinho (veja "Deploy").
 - Fotos dos produtos: `img/products/`. Veja [`img/README.md`](img/README.md).
 
 ## Rodar localmente

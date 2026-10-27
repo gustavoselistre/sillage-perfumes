@@ -20,8 +20,8 @@ const read = (f) => fs.readFileSync(path.join(ROOT, f), "utf8");
 
 /* ---------- Catálogo ---------- */
 // data.js e catalog.js declaram const globais; rodando os dois num só script, a última expressão devolve tudo.
-const { CONFIG, PRODUCTS: FALLBACK_PRODUCTS, FAMILIES, CATEGORIES, SEO_TEXTS, createShop } = vm.runInNewContext(
-  `${read("js/data.js")}\n${read("js/catalog.js")}\n;({ CONFIG, PRODUCTS, FAMILIES, CATEGORIES, SEO_TEXTS, createShop })`
+const { CONFIG, PRODUCTS: FALLBACK_PRODUCTS, FAMILIES, CATEGORIES, SEO_TEXTS, FAQ, createShop } = vm.runInNewContext(
+  `${read("js/data.js")}\n${read("js/catalog.js")}\n;({ CONFIG, PRODUCTS, FAMILIES, CATEGORIES, SEO_TEXTS, FAQ, createShop })`
 );
 
 // Produtos do painel (a mesma lista que a vitrine carrega). Sem resposta válida, usa a reserva do data.js.
@@ -45,7 +45,7 @@ const PRODUCTS = await loadProducts();
 const SHOP = createShop(PRODUCTS);
 const {
   escapeHtml: esc, formatPrice, sizeOptions, familyLabel, fullName, categoryLabel, slug,
-  productUrl, brandUrl, familyUrl, categoryUrl, productVisual, photoCls, bgStyle, purchaseHtml, productCard,
+  productUrl, brandUrl, familyUrl, categoryUrl, productVisual, photoCls, bgStyle, purchaseHtml, productCard, faqHtml,
 } = SHOP;
 
 const SITE = CONFIG.siteUrl.replace(/\/$/, "");
@@ -394,13 +394,21 @@ pages.set("decantes/", listingPage({
   siblings: chipLinks(categoryLinks, ""),
 }));
 
-/* ---------- Home: vitrine pré-renderizada + links do rodapé ---------- */
+/* ---------- Home: vitrine e perguntas frequentes pré-renderizadas + links do rodapé ---------- */
 const PRODUCTS_SLOT = '<div class="products" data-products></div>';
+const FAQ_SLOT = '<div class="faq" data-faq></div>';
 if (!INDEX.includes(PRODUCTS_SLOT)) throw new Error("index.html: vitrine (data-products) não encontrada");
-const home = withExplore(INDEX).replace(
-  PRODUCTS_SLOT,
-  `<div class="products" data-products>${byAvailability(PRODUCTS).slice(0, 12).map((p, i) => productCard(p, i)).join("")}</div>`
-);
+if (!INDEX.includes(FAQ_SLOT)) throw new Error("index.html: perguntas frequentes (data-faq) não encontradas");
+const faqLd = ldJson({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": `${SITE}/#duvidas`,
+  mainEntity: FAQ.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+});
+const home = withExplore(INDEX)
+  .replace(PRODUCTS_SLOT, `<div class="products" data-products>${byAvailability(PRODUCTS).slice(0, 12).map((p, i) => productCard(p, i)).join("")}</div>`)
+  .replace(FAQ_SLOT, `<div class="faq" data-faq>${faqHtml(FAQ)}</div>`)
+  .replace("</head>", `  ${faqLd}\n</head>`);
 
 /* ---------- 404 (sem ele o Cloudflare Pages devolve a home com status 200) ---------- */
 const notFound = page({
