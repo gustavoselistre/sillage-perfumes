@@ -1,3 +1,6 @@
+# Site gerado por scripts/build.mjs
+dist/
+
 # Local tooling (não vai para o repositório nem para o site)
 deploy_key
 .chrome-puppet/
